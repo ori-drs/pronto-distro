@@ -30,9 +30,6 @@ remove necessaity for all the atlas feedback types:
 - also have the feedback messages not published when in user mode
 - for old logs, write a python converter that will republish the behavior bit to the new type
 
-opencv -------------------------------------------------
-required by occ-map, can i remove it?
-
 
 To provide to others:
 - a script that launches
@@ -45,7 +42,11 @@ To provide to others:
 A sketch of a translator for ros-to-lcm
 
 
+Filesize and build time, oct 2014:
+with opencv: 166MB
+wout opencv: 11MB
 
+compile time: 4mins =/- 10secs
 
 ================= OLD NOTES =================
 AAAAAAAAAA OTHER MODULES AAAAAAAAAAAAAAAAAAAA
