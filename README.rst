@@ -1,6 +1,6 @@
-=======
+======================
 Pronto State Estimator
-=======
+======================
 
 .. contents:: Table of Contents
 
@@ -22,6 +22,6 @@ Background
 
 
 pronto-distro
-=============
+-------------
 
 Distribution of Pronto to required dependencies
