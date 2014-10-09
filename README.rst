@@ -65,12 +65,14 @@ Compiling
 Make sure you have checked out the git submodules:
 
 ::
+
     cd pronto-distro
     git submodule update --init --recursive
 
 The start compiling
 
 ::
+
     make
 
 The compile time is about 4 mins.
