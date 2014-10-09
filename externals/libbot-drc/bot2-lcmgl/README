@@ -1,0 +1,34 @@
+This software is constructed according to the Pods software policies and
+templates.  The policies and templates can be found at:
+
+  http://sourceforge.net/projects/pods
+
+====
+
+Name:         bot2-lcmgl
+Maintainers:  
+Summary:      Transmit OpenGL commands over LCM, and render them elsewhere.
+Description:  
+  bot2-lcmgl contains a set of client libraries in C, Java, and Python
+  for transmitting OpenGL commands over LCM.  It also provides routines
+  for receiving and rendering these commands in either a standalone
+  application (bot-lcmgl-viewer), or incorporated into another
+  C/C++ application.
+
+  A nice attribute of the client libraries is that they do not depend on
+  any OpenGL libraries, and only require LCM.
+
+Requirements: FILL-ME-IN
+  General requirements:
+
+  LCM
+  GTK+ (>= 2.0)
+  OpenGL 
+  GLUT / FreeGLUT
+  Java
+  Python
+
+  Requires the following pods, which are distributed as part of libbot2:
+
+  bot2-core
+  bot2-vis

@@ -1,0 +1,12 @@
+package bot_param;
+
+struct set_t
+{
+        int64_t utime; 
+        
+        int64_t server_id;       //The unique identifier for this param-server, 
+        int32_t sequence_number; //The version number of the last_param_file seen by sender
+	
+		int32_t numEntries; 			//number of keys that should be set
+		bot_param.entry_t entries[numEntries];  //the key,value pairs to set
+}

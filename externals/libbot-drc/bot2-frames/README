@@ -1,0 +1,58 @@
+This software is constructed according to the Pods software policies and
+templates.  The policies and templates can be found at:
+
+  http://sourceforge.net/projects/pods
+
+====
+
+Name:         bot2-frames
+Maintainers:  
+Summary:      A library that manages a set of coordinate frames.
+Description:  
+  bot2-frames reads the coordinate frame setup information from a parameter file stored by bot2-param
+
+=================
+Requirements: 
+    GLib (>= 2.0)
+    LCM  (http://lcm.googlecode.com)
+    bot2-core
+    bot2-param
+	bot2-vis (optional, for renderer)
+	
+=================
+Param File Format:
+	bot2-frames assumes specific param-file format, an example of which is shown below
+
+	
+coordinate_frames {
+   root_frame = "local";                 #a root_frame must be defined
+
+   body {
+     relative_to = "local";
+     history = 1000;                    #number of past transforms to keep around,
+     update_channel = "BODY_TO_LOCAL";  #transform updates will be listened for on this channel
+     initial_transform{
+       translation = [ 0, 0, 0 ];         #(x,y,z) translation vector
+       quat = [ 1, 0, 0, 0 ];           #may be specified as a quaternion, rpy, rodrigues, or axis-angle
+     }
+   }
+   laser {
+     relative_to = "body";
+     history = 0;                       #if set to 0, transform will not be updated
+     update_channel = "";               #ignored since history=0
+     initial_transform{
+       translation = [ 0, 0, 0 ];
+       rpy = [ 0, 0, 0 ];
+     }
+   }
+   camera {
+     relative_to = "body";
+     history = 0;
+     initial_transform{
+       translation = [ 0, 0, 0 ];
+       rodrigues = [ 0, 0, 0 ];
+     }
+   }
+  #etc...
+}
+	 

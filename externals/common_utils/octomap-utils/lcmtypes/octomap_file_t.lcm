@@ -1,0 +1,18 @@
+package octomap;
+
+struct node_t
+{
+	float xyz[3];
+	float negLogLike;
+}
+
+struct file_t
+{
+	int64_t utime; 
+	
+	float resolution;
+	float minNegLogLike;
+	
+	int32_t num_nodes;
+	node_t  nodes[num_nodes];
+}

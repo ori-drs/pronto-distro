@@ -1,0 +1,32 @@
+package bot_procman;
+
+/* describes the state of a command managed by the procman sheriff/deputy
+ */
+// ============ set by the sheriff ==========
+
+struct sheriff_cmd_t {
+
+    // name of the command
+    string  name;
+
+    // nickname of the command
+    string  nickname;
+
+    // group of the command
+    string group;
+
+    // to start a command running, the sheriff should change desired_runid and 
+    // unset force_quit
+    int32_t desired_runid;
+
+    // flag set by the sheriff.  If set, then the deputy should forcefully
+    // terminate the command
+    int8_t force_quit;
+
+    // assigned by the sheriff, identifies the command
+    int32_t sheriff_id;
+
+    // automatically restart when the process should be running (i.e.,
+    // force_quit is not set)
+    boolean auto_respawn;
+}

@@ -1,0 +1,10 @@
+package eigen_utils;
+
+struct matlab_rpc_command_t
+{
+	int32_t nonce;
+	string command;
+    int32_t numArgs;
+    eigen_utils.eigen_dense_t args[numArgs];
+    int32_t numReturnVals;
+}

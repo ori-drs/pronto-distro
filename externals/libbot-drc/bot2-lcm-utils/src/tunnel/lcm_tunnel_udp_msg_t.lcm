@@ -1,0 +1,8 @@
+struct lcm_tunnel_udp_msg_t
+{
+    int16_t seqno;
+    int16_t fragno;
+    int32_t payload_size;  //total size of message (probably split up into smaller fragmets)
+    int32_t data_size;
+    byte    data[data_size];
+}

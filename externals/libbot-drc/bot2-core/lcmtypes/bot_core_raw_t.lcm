@@ -1,0 +1,12 @@
+// The raw_t message encapsulates opaque binary data.   Expected use cases
+// are to transmit raw sensor data via LCM.
+
+package bot_core;
+
+struct raw_t
+{
+	int64_t utime; 
+	
+	int32_t length;
+	byte    data[length];
+}

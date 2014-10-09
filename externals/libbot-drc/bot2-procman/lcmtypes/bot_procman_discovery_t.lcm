@@ -1,0 +1,12 @@
+package bot_procman;
+
+/*
+   message sent by a procman deputy or sheriff to discover other deputies and
+   sheriffs on the network.
+*/
+
+struct discovery_t {
+    int64_t utime;
+    string host;
+    int64_t nonce;
+}

@@ -1,0 +1,23 @@
+package bot_procman;
+
+/*
+   message sent by a procman deputy, primarily intended for the procman
+   sheriff.  informs the sheriff of the status of processes running on the
+   host managed by the deputy.
+*/
+
+struct info_t {
+    int64_t utime;
+    string host;
+
+    // [0, 1]
+    float cpu_load;
+
+    int64_t phys_mem_total_bytes;
+    int64_t phys_mem_free_bytes;
+    int64_t swap_total_bytes;
+    int64_t swap_free_bytes;
+
+    int32_t ncmds;
+    deputy_cmd_t cmds[ncmds];
+}

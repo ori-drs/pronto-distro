@@ -1,0 +1,17 @@
+// MOD: this message is required due to avoid circular dependency between laser_utils and octomap_utils
+// KEEP THIS IN SYNC WITH THE SAME MESSAGE IN OCTOMAP_UTILS
+
+// The raw_t message encapsulates opaque binary data.   Expected use cases
+// are to transmit raw sensor data via LCM.
+
+package laser;
+
+struct raw_t
+{
+	int64_t utime; 
+
+	double transform[4][4];
+
+	int32_t length;
+	byte    data[length];
+}

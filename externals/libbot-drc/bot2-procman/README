@@ -1,0 +1,47 @@
+This software is constructed according to the Pods software policies and
+templates.  The policies and templates can be found at:
+
+  http://sourceforge.net/projects/pods
+
+====
+
+Name:         bot2-procman
+Maintainers:  Albert Huang <albert@csail.mit.edu>
+Summary:      Tools to manage many processes distributed over several workstations
+Description:
+  Procman is a tool for managing many processes distributed over one or more
+  computers.  There are two ways to use procman:
+
+  1) Sheriff / Deputy mode
+
+  In this mode, every workstation runs a bot-procman-deputy process.  One
+  workstation runs a bot-procman-sheriff process, which provides a GUI to
+  command and communicate with the deputies.
+
+  Using the GUI, you can:
+    create new processes
+    start, stop, restart processes
+    aggregate processes together into logical groups (e.g., "Planning")
+    view the standard output of each process (redirected by deputies)
+    save and load process configuration files
+    view process statistics (memory used, CPU% used)
+
+  2) Lone Ranger mode
+
+  This mode is primarily useful when you only want to run processes on the
+  local computer.  In this mode, the sheriff acts as its own deputy.  To
+  operate in lone ranger mode, run
+
+  bot-procman-sheriff --lone-ranger
+
+  or with -l, but --lone-ranger is cooler.
+
+Requirements:
+  GLib (>= 2.0)
+  LCM  (http://lcm.googlecode.com)
+
+  Python
+  PyGTK  (bot-procman-sheriff is written in Python with PyGTK)
+
+  Currently only tested on GNU/Linux.  Some stuff will definitely only work on
+  Linux (e.g., the process memory, CPU statistics).

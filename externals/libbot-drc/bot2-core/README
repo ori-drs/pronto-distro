@@ -1,0 +1,17 @@
+This software is constructed according to the Pods software policies and
+templates.  The policies and templates can be found at:
+
+  http://sourceforge.net/projects/pods
+
+====
+
+Name:         bot2-core
+Maintainers:  
+Summary:      A library of handy functions and data structures, and some LCM types.
+Description:  
+  bot2-core provides a number of functions and data structures that are 
+  useful to a variety of robotics platforms.
+
+Requirements: 
+    GLib (>= 2.0)
+    LCM  (http://lcm.googlecode.com)

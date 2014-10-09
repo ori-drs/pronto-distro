@@ -1,0 +1,147 @@
+#!/usr/bin/python
+
+import sys
+import os
+import gzip
+import subprocess
+
+def usage():
+    print("""usage: bot-ppmsgz <input.ppms.gz> <output-format> <format-options...>
+
+bot-ppmsgz is a utility for converting .ppms.gz videos recorded by bot-vis
+viewer applications to more useful formats.  All output formats, except for
+"files", require ffmpeg.  For the most part, this program is a light wrapper
+around ffmpeg.
+
+A .ppms.gz file is a zlib compressed sequence of PPM files.  If the conversions
+provided by this tool are insufficient, then you can work with a .ppms.gz file
+directly with ffmpeg by piping it to ffmpeg as follows:
+  zcat input.ppms.gz | ffmpeg -vcodec ppm -f image2pipe -i - FFMPEG_OPTIONS...
+
+
+OUTPUT_FORMATS:
+
+  Name       Summary
+  ------     ---------
+  files      Outputs every frame to a separate file
+  mpeg4      MPEG-4 part 2
+  msmpeg4v2  MPEG-4 part 2, Microsoft variant version 2
+
+  Usage instructions for each output format are given in the section
+  FORMAT_OPTIONS.
+
+
+FORMAT_OPTIONS:
+
+  files <output-directory>
+    Extracts every frame into a separate .ppm file in the specified directory.
+    Output files are named output-NNNNNN.ppm, where NNNNNN is the frame number.
+
+    Example:
+      bot-ppmsgz input.ppms.gz files .
+
+
+  mpeg4 <bitrate> <framerate> <output.mp4>
+     Convert the .ppms.gz file into an MPEG-4 compressed video file.  bitrate
+     and framerate are as specified by ffmpeg.
+
+     Example:
+       bot-ppmsgz input.ppms.gz mpeg4 10M 30 output.mp4
+
+         Compress at 10 megabits / second, 30 fps.
+  
+  msmpeg4v2 <bitrate> <framerate> <output.avi>
+    Convert the .ppms.gz file into a .AVI file using the msmpeg4v2 codec.  This
+    format is primarily useful because Windows XP has the codec built in.  bitrate
+    and framerate are as specified by ffmpeg.
+
+    Example:
+      bot-ppmsgz input.ppms.gz msmpeg4v2 5M 15 output.avi
+
+        Compress at 5 megabits / second, 15 fps.
+""")
+    sys.exit(1)
+
+
+def ffmpeg_execute(args, gzfile):
+    try:
+        args = ["ffmpeg"] + args
+        p = subprocess.Popen(args, stdin=subprocess.PIPE)
+        s = p.poll()
+        while p.poll() is None:
+            data = gzfile.read(8192)
+            if len(data) == 0:
+                p.stdin.close()
+                p.wait()
+            else:
+                p.stdin.write(data)
+    except OSError:
+        print("bot-ppmsgz requires ffmpeg, which was not found")
+        sys.exit(1)
+
+
+def main(args):
+    if len(args) < 3:
+        usage()
+
+    args = args[1:]
+    if args[0] in [ "-h", "--help" ]:
+        usage()
+
+    input_fname = args.pop(0)
+    gzfile = gzip.open(input_fname, "rb")
+
+#    if not args:
+#        sys.exit(0)
+
+    fmt_name = args.pop(0)
+
+    if fmt_name == "files":
+        if len(args) < 1:
+            usage()
+
+        out_dirname = args[0]
+        if not os.path.exists(out_dirname):
+            os.makedirs(out_dirname)
+        count = 0
+        while True:
+            firstline = gzfile.readline()
+            if not firstline:
+                break
+            width, height = [ int (i) for i in firstline.split ()[1:3]]
+            data = gzfile.read(width * height * 3)
+
+            fname = os.path.join(out_dirname, "output-%06d.ppm" % count)
+            outf = file(fname, "wb")
+            outf.write(firstline)
+            outf.write(data)
+            outf.close()
+            count += 1
+            print fname
+    elif fmt_name == "mpeg4":
+        if len(args) < 3:
+            print("Insufficient arguments for mpeg4.  Run bot-ppmsgz -h for usage instructions.")
+            sys.exit(1)
+
+        bitrate = args[0]
+        framerate = args[1]
+        output_fname = args[2]
+        ffmpeg_execute(["-r", framerate, "-y", "-vcodec", "ppm", 
+            "-f", "image2pipe", "-i", "-", "-vcodec", "mpeg4", 
+            "-b", bitrate, "-f", "mp4", output_fname], gzfile)
+    elif fmt_name == "msmpeg4v2":
+        if len(args) < 3:
+            print("Insufficient arguments for mspeg4v2.  Run bot-ppmsgz -h for usage instructions.")
+            sys.exit(1)
+
+        bitrate = args[0]
+        framerate = args[1]
+        output_fname = args[2]
+        ffmpeg_execute(["-r", framerate, "-y", "-vcodec", "ppm", 
+            "-f", "image2pipe", "-i", "-", "-vcodec", "msmpeg4v2", 
+            "-b", bitrate, "-f", "avi", output_fname], gzfile)
+    else:
+        usage()
+
+if __name__ == "__main__":
+    main(sys.argv)

@@ -1,0 +1,12 @@
+package bot_param;
+
+struct update_t
+{
+        int64_t utime; 
+        
+        int64_t server_id;       //The unique identifier for this param-server, 
+        int32_t sequence_number; //The version number of the params
+
+        string params;           //string containing ALL params
+}
+

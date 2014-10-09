@@ -1,0 +1,15 @@
+# list of subdirectories to build, one one each line.  Empty lines
+# and lines starting with '#' are ignored
+
+Eigen_pod
+libbot-drc
+
+#opencv-drc
+
+occ-map
+octomap-drc
+
+vicon
+common_utils
+microstrain_comm
+

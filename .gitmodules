@@ -1,0 +1,6 @@
+[submodule "pronto"]
+	path = pronto
+	url = git@github.com:mitdrc/pronto.git
+[submodule "kinematics-utils"]
+	path = kinematics-utils
+	url = git@github.com:mitdrc/kinematics-utils.git

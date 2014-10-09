@@ -1,0 +1,9 @@
+struct lcm_tunnel_params_t
+{
+    boolean udp;
+    int32_t udp_port;
+    int32_t tcp_max_age_ms;
+    int32_t max_delay_ms;
+    string channels;
+    float fec;
+}

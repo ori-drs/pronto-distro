@@ -1,0 +1,8 @@
+This pod is a wrapper-pod that downloads, unzips, and installs Eigen-3:
+http://eigen.tuxfamily.org/
+
+The wrapper is constructed according to the Pods software policies and
+templates.  The policies and templates can be found at:
+http://sourceforge.net/projects/pods
+
+

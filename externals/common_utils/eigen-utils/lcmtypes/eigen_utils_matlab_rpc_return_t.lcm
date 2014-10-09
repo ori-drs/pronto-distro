@@ -1,0 +1,10 @@
+package eigen_utils;
+
+struct matlab_rpc_return_t
+{
+	int32_t nonce;
+	int32_t return_status;
+	string error_msg;
+    int32_t numReturnVals;
+    eigen_utils.eigen_dense_t returnVals[numReturnVals];
+}

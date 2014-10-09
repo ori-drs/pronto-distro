@@ -1,0 +1,23 @@
+OUTPUT_DIRECTORY=
+PROJECT_NAME=procman
+GENERATE_LATEX=no
+#TAGFILES=
+#GENERATE_TAGFILE=
+#STRIP_FROM_PATH=
+JAVADOC_AUTOBRIEF=yes
+EXTERNAL_GROUPS=no
+
+INHERIT_DOCS           = YES
+LAYOUT_FILE            = DoxygenLayout.xml
+
+INPUT                  = content ../python/src/bot_procman/
+FILE_PATTERNS          = *.hpp *.md sheriff.py sheriff_script.py signal_slot.py
+EXCLUDE_PATTERNS       =
+EXCLUDE_SYMBOLS        = ScriptExecutionContext
+
+EXAMPLE_PATH           = ../lcmtypes
+EXAMPLE_PATTERNS       = *.lcm
+
+IMAGE_PATH             = images
+INPUT_FILTER           =
+FILTER_PATTERNS        = *.py=doxypy

@@ -1,0 +1,22 @@
+package bot_core;
+
+// image_sync_t is used by libcam plugins to synchronize playback of a libcam
+// log file with playback of an LCM log file.
+//
+// The expected usage scenario is when an image stream is recorded to a libcam
+// log file, and a lcm-syncpub unit is in the libcam chain that publishes
+// image_sync_t messages to an LCM network, where they may be logged to the
+// an LCM logfile.
+//
+// Later, when playing back an LCM log file, the image_sync_t messages can be
+// used by a libcam log playback unit to synchronize its playback of the
+// libcam log file with the LCM log file.
+//
+// The existence of this message type is largely predicated on the notion that
+// we may not always want full resolution image data in an LCM log file, and
+// may instead store it in a dedicated libcam log file.
+
+struct image_sync_t
+{
+    int64_t utime;
+}

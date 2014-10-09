@@ -1,0 +1,24 @@
+This software is constructed according to the Pods software policies and
+templates.  The policies and templates can be found at:
+
+  http://sourceforge.net/projects/pods
+
+====
+
+Name:         bot2-vis
+Maintainers:  FILL-ME-IN
+Summary:      Visualization libraries for libbot2
+Description:  FILL-ME-IN
+
+
+Requirements:
+  General requirements:
+
+  GTK+ >= 2.0
+  OpenGL
+  GLUT
+  LCM (http://lcm.googlecode.com)
+
+  Requires the following pods, which are distributed as part of libbot2:
+
+  bot2-core

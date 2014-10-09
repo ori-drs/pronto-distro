@@ -1,0 +1,32 @@
+package bot_procman;
+
+/* describes the state of a command managed by the procman sheriff/deputy
+ */
+
+struct deputy_cmd2_t {
+
+    // The command to execute.
+    command2_t cmd;
+
+    // If the command is running, then this is the pid if not, then this is
+    // zero.
+    int32_t pid;
+
+    // an ID for the run instance
+    int32_t actual_runid;
+
+    // the last exit code
+    int32_t exit_code;
+
+    // [0, 1]
+    float cpu_usage;
+
+    // total virtual memory used by the process
+    int64_t mem_vsize_bytes;
+
+    // total physical memory used by the process
+    int64_t mem_rss_bytes;
+
+    // assigned by the sheriff, identifies the command
+    int32_t sheriff_id;
+}

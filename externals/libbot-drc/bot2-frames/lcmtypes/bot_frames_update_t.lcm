@@ -1,0 +1,14 @@
+package bot_frames;
+
+struct update_t
+{
+    int64_t utime;              // utime that the actual measurement took place
+    
+    string frame;               // name of the frame to update
+    string relative_to;         // frame that the update is relative to
+    
+    double trans[3];            // translation vector component (x,y,z)
+    double quat[4];             // rotation quaternion component (w,x,y,z)
+
+                               
+}

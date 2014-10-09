@@ -1,0 +1,4 @@
+struct lcm_tunnel_disconnect_msg_t
+{
+	int64_t utime;
+}

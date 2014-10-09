@@ -1,0 +1,23 @@
+This folder contains a copy of the low density parity check forward error correction library from:
+http://planete-bcast.inrialpes.fr/rubrique.php3?id_rubrique=5
+
+It was modified by Abraham Bachrach to add a wrapper class. This code is in ldpc_wrapper.cpp/h
+
+It is licensed with the LGPL:
+=====
+This codec is: 
+  Copyright (c) 2002-2006 INRIA - All rights reserved. 
+  Copyright (c) 1995-2003 by Radford M. Neal
+
+It includes large portions of code written by Radford Neal and available here.
+
+The code coming from Radford M. Neal is distributed under the following licence:
+
+Permission is granted for anyone to copy, use, modify, or distribute these programs and accompanying documents for any purpose, provided this copyright notice is retained and prominently displayed, along with a note saying that the original programs are available from Radford Neal’s web page, and note is made of any changes made to these programs. These programs and documents are distributed without any warranty, express or implied. As the programs were written for research purposes only, they have not been tested to the degree that would be advisable in any important application. All use of these programs is entirely at the user’s own risk.
+The code coming from INRIA is distributed under the GNU/LGPL licence, with the following additional requirement:
+
+This copyright notice must be retained and prominently displayed, along with a note saying that the original programs are available from Vincent Roca’s web page, and note is made of any changes made to these programs.
+This FEC library can therefore freely be used in any program, commercial or not, open-source or not.
+
+
+===

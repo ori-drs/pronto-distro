@@ -1,0 +1,23 @@
+package bot_procman;
+
+struct command2_t {
+    // Executable string
+    string exec_str;
+
+    string command_name;
+
+    string group;
+
+    boolean auto_respawn;
+
+    int8_t stop_signal;
+
+    float stop_time_allowed;
+
+    int32_t num_options;
+
+    string option_names[num_options];
+
+    string option_values[num_options];
+}
+

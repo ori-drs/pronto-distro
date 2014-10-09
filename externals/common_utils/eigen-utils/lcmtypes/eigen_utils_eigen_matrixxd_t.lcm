@@ -1,0 +1,11 @@
+package eigen_utils;
+
+struct eigen_matrixxd_t
+{
+	int64_t utime;
+	int32_t rows;
+	int32_t cols;
+	
+	int32_t num_data;
+    double data[num_data];
+}
