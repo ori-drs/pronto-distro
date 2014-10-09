@@ -4,14 +4,14 @@ Pronto State Estimator
 
 .. contents:: Table of Contents
 
-Quick Start Build
-=================
-Make sure you have checked out the git submodules:
-git submodule update --init --recursive
+Quick Start
+===========
+
+To checkout submodules, and build the code.
 
 ::
-
     cd pronto-distro
+    git submodule update --init --recursive
     make
 
 The compile time is about 4 mins
@@ -20,20 +20,18 @@ The compile time is about 4 mins
 Introduction
 ============
 
-This README describes how to build the Pronto State Estimator
-and its required dependencies.
-
 Pronto is an efficient EKF state estimator for inertial and sensory
-motion estimation
+motion estimation.
 
 Pronto has been used to localize a Fixed-wing micro aerial vehicles
 and quadrotors aggressively flying indoors and outdoors as well as
-the Boston Dynamics Atlas humanoid.
+the Boston Dynamics Atlas humanoid. It has been used with inputs 
+from a variety of sensors e.g. IMUs, laser ranger finders, cameras,
+kinematics.
 
 As well as the source code we also provide some data samples
 to demonstrate the algorithm working on a fixed wing MAV and a
 the Atlas robot walking.
-
 
 .. image:: http://img.youtube.com/vi/V_DxB76MkE4/0.jpg
    :target: https://www.youtube.com/watch?v=V_DxB76MkE4
@@ -57,6 +55,7 @@ This repository is supported on Ubuntu 14.04. It was also recently used
 on 12.04.
 
 Requirements:
+-------------
 
 TODO: Verify from a fresh system
 
