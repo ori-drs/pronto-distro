@@ -47,8 +47,9 @@ The algorithms are built primarily in C/C++. A number of the local dependencies
 were developed for other robotics projects at MIT.
 
 The software repository consists of two modules:
-- externals: required modules such as Eigen, octomap and visualization tools
-- pronto: the core estimator library (mav) and an adaptation to for humanoids (motion_estimate)
+
+* externals: required modules such as Eigen, octomap and visualization tools
+* pronto: the core estimator library (mav) and an adaptation to for humanoids (motion_estimate)
 
 Building the Code
 =================
@@ -62,14 +63,17 @@ TODO: Verify from a fresh system
 Compiling
 ---------
 Make sure you have checked out the git submodules:
-git submodule update --init --recursive
 
 ::
-
     cd pronto-distro
+    git submodule update --init --recursive
+
+The start compiling
+
+::
     make
 
-The compile time is about 4 mins
+The compile time is about 4 mins.
 
 Credits
 =======
@@ -77,4 +81,4 @@ Credits
 Originally Developed by Adam Bry, Abe Bachrach and Nicholas Roy.
 
 Extended to support humanoid motion by Maurice Fallon with the help
-of the MIT DARPA Robotics Challenge Team
+of the `MIT DARPA Robotics Challenge Team <http://www.drc.mit.edu>`_.
