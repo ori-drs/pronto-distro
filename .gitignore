@@ -1,0 +1,37 @@
+*.pyc
+*~
+build
+pod-build/
+externals/octomap-drc/octomap-v1.5.1/octomap/bin
+externals/octomap-drc/octomap-v1.5.1/octomap/lib
+
+
+#######################
+# Ignores for lcmtypes
+#
+# In newer versions of git you can use "**" to match any number of
+# subdirectories, but these ignores assume that feature is not available.
+
+/*/*/lcmtypes/c/
+/*/*/*/lcmtypes/c/
+/*/*/*/*/lcmtypes/c/
+/*/*/*/*/*/lcmtypes/c/
+/*/*/*/*/*/*/lcmtypes/c/
+
+/*/*/lcmtypes/cpp/
+/*/*/*/lcmtypes/cpp/
+/*/*/*/*/lcmtypes/cpp/
+/*/*/*/*/*/lcmtypes/cpp/
+/*/*/*/*/*/*/lcmtypes/cpp/
+
+/*/*/lcmtypes/java/
+/*/*/*/lcmtypes/java/
+/*/*/*/*/lcmtypes/java/
+/*/*/*/*/*/lcmtypes/java/
+/*/*/*/*/*/*/lcmtypes/java/
+
+/*/*/lcmtypes/python/
+/*/*/*/lcmtypes/python/
+/*/*/*/*/lcmtypes/python/
+/*/*/*/*/*/lcmtypes/python/
+/*/*/*/*/*/*/lcmtypes/python/
