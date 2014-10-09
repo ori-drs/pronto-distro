@@ -14,10 +14,10 @@ and how to satisfy 3rd party dependencies.
 Background
 ----------
 
-.. image:: http://img.youtube.com/vi/FiH4pId-zFM/0.jpg
-   :target: https://www.youtube.com/watch?v=FiH4pId-zFM
+.. image:: http://img.youtube.com/vi/V_DxB76MkE4/0.jpg
+   :target: https://www.youtube.com/watch?v=V_DxB76MkE4
 
-`MIT DRC youtube video <https://www.youtube.com/watch?v=FiH4pId-zFM>`_
+`MIT DRC youtube video <https://www.youtube.com/watch?v=V_DxB76MkE4>`_
 
 
 System Requirements
