@@ -222,5 +222,7 @@ the `MIT Robust Robotics Group <http://groups.csail.mit.edu/rrg/>`_.
 Extended to support humanoid motion by Maurice Fallon with the help
 of the `MIT DARPA Robotics Challenge Team <http://www.drc.mit.edu>`_.
 
+The License information is available in the LICENSE file attached to this document.
+
 Maurice Fallon, October 2014. mfallon@mit.edu
 
