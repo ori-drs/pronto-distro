@@ -122,6 +122,13 @@ via network communication and event based function callbacks.
 We will provide a LCM-ROS translation bridge: to allow easy integration with
 Then we will provide native LCM 
 
+Publications
+============
+
+* State Estimation for Aggressive Flight in GPS-Denied Environments Using Onboard Sensing, A. Bry, A. Bachrach, N. Roy, ICRA 2012.
+* Drift-Free Humanoid State Estimation fusing Kinematic, Inertial and LIDAR sensing, M. Fallon, M. Antone, N. Roy, S. Teller. Humanoids 2014.
+
+
 Credits
 =======
 
@@ -130,3 +137,6 @@ the `MIT Robust Robotics Group <http://groups.csail.mit.edu/rrg/>`_.
 
 Extended to support humanoid motion by Maurice Fallon with the help
 of the `MIT DARPA Robotics Challenge Team <http://www.drc.mit.edu>`_.
+
+
+
