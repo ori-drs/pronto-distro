@@ -80,7 +80,9 @@ Running Test Examples
 
 `Running pronto <https://www.youtube.com/watch?v=OWrzUIH3kUA>`_
 
-Some test logs and maps can be downloaded from:
+Some test logs and maps can be downloaded from. Place 
+octomap.bt_blurred in the build/data/ directory. 
+
 
 ::
 
