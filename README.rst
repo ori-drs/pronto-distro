@@ -11,10 +11,13 @@ Pronto is an efficient EKF state estimator for inertial and sensory
 motion estimation.
 
 Pronto has been used to localize a Fixed-wing micro aerial vehicles
-and quadrotors aggressively flying indoors and outdoors as well as
-the Boston Dynamics Atlas humanoid. It has been used with inputs 
-from a variety of sensors e.g. IMUs, laser ranger finders, cameras,
-kinematics.
+and quadrotors aggressively flying indoors and outdoors. It has
+also been used to provide a 333Hz motion estimate for the Boston Dynamics
+Atlas humanoid. 
+
+Pronto has been used with a variety of inputs 
+from sensors such as IMUs (Microstrain and Kearfott), laser ranger finders, 
+cameras and joint kinematics.
 
 As well as the source code we also provide some data samples
 to demonstrate the algorithm working on a fixed wing MAV and a
@@ -46,6 +49,7 @@ Requirements:
 Install these common system dependencies:
 
 ::
+
     apt-get install git build-essential libglib2.0-dev openjdk-6-jdk python-dev cmake gtk-doc-tools libgtkmm-2.4-dev  freeglut3-dev libjpeg-dev libtinyxml-dev libboost-thread-dev libgtk2.0-dev python-gtk2 mesa-common-dev libgl1-mesa-dev libglu1-mesa-dev
 
 
@@ -59,7 +63,7 @@ Check out the source code using git:
     cd pronto-distro
     git submodule update --init --recursive
 
-Then start compiling
+Then start compiling:
 
 ::
 
@@ -70,7 +74,7 @@ The compile time is about 4 mins.
 Running Test Examples
 =====================
 
-Its not necessary but, I would suggest adding the binary path to your system path:
+Its not necessary but, we would suggest adding the binary path to your system path:
 
 ::
 
@@ -100,8 +104,13 @@ se-fusion -U model_LN_RN.urdf -P drc_robot_02_mit.cfg -L ~/logs/pronto_release/b
 se-fusion -U model_LN_RN.urdf -P drc_robot_02_mit.cfg -L ~/logs/pronto_release/longstp-lcmlog-2014-04-21-16-12-robot-part -pr 0
 
 
+Documentation
+=============
+
 About LCM
-=========
+---------
+
+
 
 Lightweight Communications and Marshalling (LCM) is a tool for comm
 The 
@@ -116,7 +125,8 @@ Then we will provide native LCM
 Credits
 =======
 
-Originally Developed by Adam Bry, Abe Bachrach and Nicholas Roy.
+Originally Developed by Adam Bry, Abe Bachrach and Nicholas Roy of 
+the `MIT Robust Robotics Group <http://groups.csail.mit.edu/rrg/>`_.
 
 Extended to support humanoid motion by Maurice Fallon with the help
 of the `MIT DARPA Robotics Challenge Team <http://www.drc.mit.edu>`_.
