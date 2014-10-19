@@ -107,20 +107,58 @@ se-fusion -U model_LN_RN.urdf -P drc_robot_02_mit.cfg -L ~/logs/pronto_release/l
 Documentation
 =============
 
-About LCM
----------
+Technical details about the estimator are to be completed. Please read the attached publications for details.
 
 
+Humanoid Locomotion
+-------------------
 
-Lightweight Communications and Marshalling (LCM) is a tool for comm
-The 
+Using the estimator with the Atlas Stepping Behaviour
+-----------------------------------------------------
 
-To those familiar with ROS, it serves the same as the message passing in ROS: messages are typed like C structures
+** Performance: ** With inertial and kinematic input (i.e. no LIDAR input) the drift rate of the 
+estimator is **2cm per 10 steps travelled**. We estimate this to be 10 times better 
+than the estimator provided by BDI. With the closed-loop LIDAR module, drift is removed entirely.
+
+More specifically, the estimator can walk the robot to the top of a tower of 
+cinder blocks, under BDI control - without stopping --- with the only input being
+the placement of footsteps. **Recently we executed this 8 times in a public demo.**
+
+As the estimator was primarily developed for use on Atlas, performance has been heavily tested and 
+is very robust. The easiest use case is with BDI retaining lower body control. 
+To get started we suggest disabling the LIDAR module, for simplicity.
+
+We estimate the position of the robot with the Pronto position estimator while the BDI estimate
+is still used by their system. All operation of the robot is made using the Pronto estimator.
+
+When a set of footsteps are placed near the feet of the Pronto position estimate, the relevant
+Pronto-to-BDI transform is used to transmit footsteps to the BDI stepping system. As the robot
+walks, only this Pronto-to-BDI transform is changed to ensure that the executed footsteps
+truely hit the locations we have chosen.
+
+Using the estimator with a third part controller
+------------------------------------------------
+
+At MIT we use Pronto as our 333Hz Drake controller in a high-rate control loop. Latency
+and relability have allowed us to demonstrate challenging motions with the Atlas robot.
+
+If you are interested in using the estimator with your own controller, please get in touch.
+
+
+About LCM:
+----------
+
+Currently Pronto uses LCM to received data and to publish output.
+
+Lightweight Communications and Marshalling (LCM) is a tool for efficient multi-process 
+message passing originally developed at MIT for the DARPA Urban Challenge.
+
+To those familiar with ROS, it serves the same purpose as the message passing in ROS: messages are typed like C structures
 and code is compiled to allow C/C++, python and Java bindings. Data is received in a process
-via network communication and event based function callbacks.
+via network communication and event-based function callbacks.
 
 We will provide a LCM-ROS translation bridge: to allow easy integration with
-Then we will provide native LCM 
+Then we will provide native ROS application.
 
 Publications
 ============
@@ -138,5 +176,5 @@ the `MIT Robust Robotics Group <http://groups.csail.mit.edu/rrg/>`_.
 Extended to support humanoid motion by Maurice Fallon with the help
 of the `MIT DARPA Robotics Challenge Team <http://www.drc.mit.edu>`_.
 
-
+Maurice Fallon. mfallon@mit.edu
 
