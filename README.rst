@@ -4,19 +4,6 @@ Pronto State Estimator
 
 .. contents:: Table of Contents
 
-Quick Start
-===========
-
-To checkout submodules, and build the code.
-
-::
-    cd pronto-distro
-    git submodule update --init --recursive
-    make
-
-The compile time is about 4 mins
-
-
 Introduction
 ============
 
@@ -51,36 +38,39 @@ The software repository consists of two modules:
 
 Building the Code
 =================
-This repository is supported on Ubuntu 14.04. It was also recently used
-on 12.04.
+These compile instructions were tested on a fresh Ubuntu 14.04 install, but is likely to work on earlier versions and MacOS.
 
 Requirements:
 -------------
 
-TODO: Verify from a fresh system
+Install these common system dependencies:
+
+::
+    apt-get install git build-essential libglib2.0-dev openjdk-6-jdk python-dev cmake gtk-doc-tools libgtkmm-2.4-dev  freeglut3-dev libjpeg-dev libtinyxml-dev libboost-thread-dev libgtk2.0-dev python-gtk2 mesa-common-dev libgl1-mesa-dev libglu1-mesa-dev
+
 
 Compiling
 ---------
-Make sure you have checked out the git submodules:
+
+Check out the source code using git:
 
 ::
 
     cd pronto-distro
     git submodule update --init --recursive
 
-The start compiling
+Then start compiling
 
 ::
 
     make
 
-The compile time is about 4 mins.
-
+The compile time is about 4 mins. 
 
 Running Test Examples
 =====================
 
-Its not necessary but, I would suggest adding the repo to your repository:
+Its not necessary but, I would suggest adding the binary path to your system path:
 
 ::
 
