@@ -116,13 +116,13 @@ Humanoid Locomotion
 Using the estimator with the Atlas Stepping Behaviour
 -----------------------------------------------------
 
-** Performance: ** With inertial and kinematic input (i.e. no LIDAR input) the drift rate of the 
+**Performance:** With inertial and kinematic input (i.e. no LIDAR input) the drift rate of the 
 estimator is **2cm per 10 steps travelled**. We estimate this to be 10 times better 
 than the estimator provided by BDI. With the closed-loop LIDAR module, drift is removed entirely.
 
 More specifically, the estimator can walk the robot to the top of a tower of 
 cinder blocks, under BDI control - without stopping --- with the only input being
-the placement of footsteps. **Recently we executed this 8 times in a public demo.**
+the placement of footsteps. **Recently this was executed 8 times consecutively in a public demo.**
 
 As the estimator was primarily developed for use on Atlas, performance has been heavily tested and 
 is very robust. The easiest use case is with BDI retaining lower body control. 
@@ -136,8 +136,24 @@ Pronto-to-BDI transform is used to transmit footsteps to the BDI stepping system
 walks, only this Pronto-to-BDI transform is changed to ensure that the executed footsteps
 truely hit the locations we have chosen.
 
-Using the estimator with a third part controller
-------------------------------------------------
+**Getting Started:** To use the estimator on your robot, you simply need to provide
+the required inputs to our system:
+
+* ATLAS_STATE - contains the raw joint position, velocity information
+* ATLAS_IMU_BATCH - the raw IMU data
+* POSE_BDI - the position and orientation, as estimated by BDI
+* STATE_EST_READY - a simple trigger to say where to initialize the robot - usually the origin
+
+Pronto will output: 
+
+* POSE_BODY - the position, orientation and velocity of the robot
+
+Use this pose to render the robot in your system, and maintain the POSE_BDI to POSE_BODY estimate
+so as to transform footsteps to the correct positions for the stepping controller.
+
+
+Using the estimator with a third party controller
+-------------------------------------------------
 
 At MIT we use Pronto as our 333Hz Drake controller in a high-rate control loop. Latency
 and relability have allowed us to demonstrate challenging motions with the Atlas robot.
@@ -157,15 +173,15 @@ To those familiar with ROS, it serves the same purpose as the message passing in
 and code is compiled to allow C/C++, python and Java bindings. Data is received in a process
 via network communication and event-based function callbacks.
 
-We will provide a LCM-ROS translation bridge: to allow easy integration with
-Then we will provide native ROS application.
+We provide a LCM-ROS translation bridge to allow easy integration with a ROS-based system.
+
+If you are interested in a native ROS application, please get in touch.
 
 Publications
 ============
 
 * State Estimation for Aggressive Flight in GPS-Denied Environments Using Onboard Sensing, A. Bry, A. Bachrach, N. Roy, ICRA 2012.
 * Drift-Free Humanoid State Estimation fusing Kinematic, Inertial and LIDAR sensing, M. Fallon, M. Antone, N. Roy, S. Teller. Humanoids 2014.
-
 
 Credits
 =======
