@@ -37,11 +37,11 @@ were developed for other robotics projects at MIT.
 The software repository consists of two modules:
 
 * externals: required modules such as Eigen, octomap and visualization tools
-* pronto: the core estimator library (mav) and an adaptation to for humanoids (motion_estimate)
+* pronto: the core estimator library (mav) and an adaptation for the Atlas robot (motion_estimate).
 
 Building the Code
 =================
-These compile instructions were tested on a fresh Ubuntu 14.04 install, but is likely to work on earlier versions and MacOS.
+These compile instructions were tested on a fresh Ubuntu 14.04 install, but is likely to work on other versions of Linux and MacOS.
 
 Requirements:
 -------------
@@ -60,6 +60,7 @@ Check out the source code using git:
 
 ::
 
+    git clone git@github.com:drcbot/drc.git
     cd pronto-distro
     git submodule update --init --recursive
 
@@ -93,9 +94,10 @@ To process a log run these processes:
   pronto_viewer
   lcm-logplayer-gui typical-lcmlog-2014-04-21-15-13-robot-part
 
+Some notes:
 
 * All the state estimation is done in se-fusion. It listens to messages published 
-  from the logplayer and produces POSE_BODY. 
+  from the logplayer and produces POSE_BODY - the position and orientation. 
 * pronto-viewer is a GUI showing the sensor data and 
   the position of the robot.
 * Make sure that POSE_BODY and STATE_ESTIMATOR_STATE are disabled 
@@ -108,13 +110,15 @@ To process a log run these processes:
   octomap-server octomap.bt
 
 There are two other logs that work in the same way:
+
 * longstp-lcmlog-2014-04-21-16-12-robot-part
-* blocks3-lcmlog-2014-04-21-18-40-robot-part **Need a different map for this log**
+* blocks3-lcmlog-2014-04-21-18-40-robot-part. TODO: I need a different map for this log.
 
 Options
 -------
 
 All options are read from the cfg file located in pronto-distro-config. 
+
 * By default, this demos initalizes using vicon data in the log via "init_sensors"
 * The Gaussian Particle Filter is disabled by removing it from "active_sensors".
 * Its not necessary but, we would suggest adding the binary path to your system path:
@@ -184,16 +188,17 @@ If you are interested in using the estimator with your own controller, please ge
 About LCM:
 ----------
 
-Currently Pronto uses LCM to received data and to publish output.
+Currently Pronto uses LCM to receive data and to publish output.
 
 Lightweight Communications and Marshalling (LCM) is a tool for efficient multi-process 
 message passing originally developed at MIT for the DARPA Urban Challenge.
 
-To those familiar with ROS, it serves the same purpose as the message passing in ROS: messages are typed like C structures
+To those familiar with ROS, it serves the same purpose as the message passing in ROS: messages are typed data structures
 and code is compiled to allow C/C++, python and Java bindings. Data is received in a process
 via network communication and event-based function callbacks.
 
 We provide a LCM-ROS translation bridge to allow easy integration with a ROS-based system.
+Transmission 1-to-1 is straightforward.
 
 If you are interested in a native ROS application, please get in touch.
 
@@ -212,5 +217,5 @@ the `MIT Robust Robotics Group <http://groups.csail.mit.edu/rrg/>`_.
 Extended to support humanoid motion by Maurice Fallon with the help
 of the `MIT DARPA Robotics Challenge Team <http://www.drc.mit.edu>`_.
 
-Maurice Fallon. mfallon@mit.edu
+Maurice Fallon, October 2014. mfallon@mit.edu
 
