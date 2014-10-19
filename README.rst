@@ -97,7 +97,7 @@ To process a log run these processes:
 Some notes:
 
 * All the state estimation is done in se-fusion. It listens to messages published 
-  from the logplayer and produces POSE_BODY - the position and orientation. 
+  from the logplayer and produces POSE_BODY - the position and orientation of the robot's pelvis. 
 * pronto-viewer is a GUI showing the sensor data and 
   the position of the robot.
 * Make sure that POSE_BODY and STATE_ESTIMATOR_STATE are disabled 
@@ -137,6 +137,11 @@ or get in touch for support.
 Humanoid Locomotion
 -------------------
 
+Having tried out the test examples. How can you use Pronto with your robot?
+
+First of all, pronto can be used as an module within your system without any changes. It
+simply produces a better state estimator - enabling more rapid walking.
+
 Using the estimator with the Atlas Stepping Behaviour
 -----------------------------------------------------
 
@@ -149,11 +154,11 @@ cinder blocks, under BDI control - without stopping --- with the only input bein
 the placement of footsteps. **Recently this was executed 8 times consecutively in a public demo.**
 
 As the estimator was primarily developed for use on Atlas, performance has been heavily tested and 
-is very robust. The easiest use case is with BDI retaining lower body control. 
+is robust. The easiest use case is with BDI retaining lower body control. 
 To get started we suggest disabling the LIDAR module, for simplicity.
 
 We estimate the position of the robot with the Pronto position estimator while the BDI estimate
-is still used by their system. All operation of the robot is made using the Pronto estimator.
+is still used by their system.
 
 When a set of footsteps are placed near the feet of the Pronto position estimate, the relevant
 Pronto-to-BDI transform is used to transmit footsteps to the BDI stepping system. As the robot
@@ -170,9 +175,9 @@ the required inputs to our system:
 
 Pronto will output: 
 
-* POSE_BODY - the position, orientation and velocity of the robot
+* POSE_BODY - the position, orientation and velocity of the robot's pelvis
 
-Use this pose to render the robot in your system, and maintain the POSE_BDI to POSE_BODY estimate
+Use this pose to render the robot in your system, and maintain the relative POSE_BDI-to-POSE_BODY estimate
 so as to transform footsteps to the correct positions for the stepping controller.
 
 
@@ -197,7 +202,7 @@ To those familiar with ROS, it serves the same purpose as the message passing in
 and code is compiled to allow C/C++, python and Java bindings. Data is received in a process
 via network communication and event-based function callbacks.
 
-We provide a LCM-ROS translation bridge to allow easy integration with a ROS-based system.
+We provide a LCM-to-ROS translation bridge to allow easy integration with a ROS-based system.
 Transmission 1-to-1 is straightforward.
 
 If you are interested in a native ROS application, please get in touch.
