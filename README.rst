@@ -76,6 +76,53 @@ The start compiling
 
 The compile time is about 4 mins.
 
+
+Running Test Examples
+=====================
+
+Its not necessary but, I would suggest adding the repo to your repository:
+
+::
+
+  export PATH=<path-to-your-code>/pronto-distro/build/bin:$PATH
+
+To process a
+
+::
+
+  se-fusion -U model_LN_RN.urdf -P drc_robot_02_mit.cfg
+  lcm-logplayer-gui <logfile>
+  pronto_viewer
+  bot-spy
+  octomap-server octomap.bt
+
+All the state estimation is done in se-fusion. It listens to messages published 
+from the logplayer. pronto-viewer is a GTK GUI showing the sensor data and 
+the position of the robot
+
+
+blocks3-lcmlog-2014-04-21-18-40-robot-part
+longstp-lcmlog-2014-04-21-16-12-robot-part
+typical-lcmlog-2014-04-21-15-13-robot-part
+
+
+se-fusion -U model_LN_RN.urdf -P drc_robot_02_mit.cfg -L ~/logs/pronto_release/blocks3-lcmlog-2014-04-21-18-40-robot-part -pr 0
+se-fusion -U model_LN_RN.urdf -P drc_robot_02_mit.cfg -L ~/logs/pronto_release/longstp-lcmlog-2014-04-21-16-12-robot-part -pr 0
+
+
+About LCM
+=========
+
+Lightweight Communications and Marshalling (LCM) is a tool for comm
+The 
+
+To those familiar with ROS, it serves the same as the message passing in ROS: messages are typed like C structures
+and code is compiled to allow C/C++, python and Java bindings. Data is received in a process
+via network communication and event based function callbacks.
+
+We will provide a LCM-ROS translation bridge: to allow easy integration with
+Then we will provide native LCM 
+
 Credits
 =======
 
