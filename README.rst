@@ -74,41 +74,61 @@ The compile time is about 4 mins.
 Running Test Examples
 =====================
 
-Its not necessary but, we would suggest adding the binary path to your system path:
+.. image:: http://img.youtube.com/vi/OWrzUIH3kUA/0.jpg
+   :target: https://www.youtube.com/watch?v=OWrzUIH3kUA
+
+`Running pronto <https://www.youtube.com/watch?v=OWrzUIH3kUA>`_
+
+Some test logs and maps can be downloaded from:
+
+::
+
+  http://people.csail.mit.edu/mfallon/pronto_logs/
+
+To process a log run these processes:
+
+::
+
+  se-fusion -U model_LN_RN.urdf -P drc_robot_02_mit.cfg
+  pronto_viewer
+  lcm-logplayer-gui typical-lcmlog-2014-04-21-15-13-robot-part
+
+
+* All the state estimation is done in se-fusion. It listens to messages published 
+  from the logplayer and produces POSE_BODY. 
+* pronto-viewer is a GUI showing the sensor data and 
+  the position of the robot.
+* Make sure that POSE_BODY and STATE_ESTIMATOR_STATE are disabled 
+  (they were the position generated during the run)
+* bot-spy is a tool for inspecting the messages.
+* You can view the octomap that's being localized using octomap-server:
+
+::
+
+  octomap-server octomap.bt
+
+There are two other logs that work in the same way:
+* longstp-lcmlog-2014-04-21-16-12-robot-part
+* blocks3-lcmlog-2014-04-21-18-40-robot-part **Need a different map for this log**
+
+Options
+-------
+
+All options are read from the cfg file located in pronto-distro-config. 
+* By default, this demos initalizes using vicon data in the log via "init_sensors"
+* The Gaussian Particle Filter is disabled by removing it from "active_sensors".
+* Its not necessary but, we would suggest adding the binary path to your system path:
 
 ::
 
   export PATH=<path-to-your-code>/pronto-distro/build/bin:$PATH
 
-To process a
-
-::
-
-  se-fusion -U model_LN_RN.urdf -P drc_robot_02_mit.cfg
-  lcm-logplayer-gui <logfile>
-  pronto_viewer
-  bot-spy
-  octomap-server octomap.bt
-
-All the state estimation is done in se-fusion. It listens to messages published 
-from the logplayer. pronto-viewer is a GTK GUI showing the sensor data and 
-the position of the robot
-
-
-blocks3-lcmlog-2014-04-21-18-40-robot-part
-longstp-lcmlog-2014-04-21-16-12-robot-part
-typical-lcmlog-2014-04-21-15-13-robot-part
-
-
-se-fusion -U model_LN_RN.urdf -P drc_robot_02_mit.cfg -L ~/logs/pronto_release/blocks3-lcmlog-2014-04-21-18-40-robot-part -pr 0
-se-fusion -U model_LN_RN.urdf -P drc_robot_02_mit.cfg -L ~/logs/pronto_release/longstp-lcmlog-2014-04-21-16-12-robot-part -pr 0
-
 
 Documentation
 =============
 
-Technical details about the estimator are to be completed. Please read the attached publications for details.
-
+Technical details about the estimator are to be completed. Please read the attached publications for details
+or get in touch for support.
 
 Humanoid Locomotion
 -------------------
