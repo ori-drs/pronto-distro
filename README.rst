@@ -93,7 +93,7 @@ To process a log run these processes:
 ::
 
   se-fusion -U model_LN_RN.urdf -P drc_robot_02_mit.cfg
-  pronto_viewer
+  pronto-viewer
   lcm-logplayer-gui typical-lcmlog-2014-04-21-15-13-robot-part
 
 Some notes:
@@ -182,15 +182,48 @@ Pronto will output:
 Use this pose to render the robot in your system, and maintain the relative POSE_BDI-to-POSE_BODY estimate
 so as to transform footsteps to the correct positions for the stepping controller.
 
+Using the Estimator With ROS
+----------------------------
+
+We provide a LCM-to-ROS translation bridge to allow easy integration with a ROS-based system.
+On ROS Indigo the follow contents should be added to bashrc: 
+
+::
+
+  export PATH=/home/drc/pronto-distro/build/bin:$PATH
+  source /opt/ros/indigo/setup.bash
+  source /usr/share/drcsim/setup.sh
+  export PKG_CONFIG_PATH=<insert-path-to>/pronto-distro/build/lib/pkgconfig/:<insert-path-to>/pronto-distro/build/lib64/pkgconfig/:$PKG_CONFIG_PATH
+  export LD_LIBRARY_PATH=<insert-path-to>/pronto-distro/build/lib/:<insert-path-to>/pronto-distro/build/lib64/:$LD_LIBRARY_PATH
+
+This is a super set, not all of these are required. The package can then be compiled using catkin:
+
+::
+
+  cd <insert-path-to>/pronto-lcm-ros-translators
+  catkin_make
+  source <insert-path-to>/pronto-distro/pronto-lcm-ros-translators/devel/setup.bash
+
+And then a translators can be run in each direction:
+
+::
+  
+  rosrun pronto_translators ros2lcm
+  rosrun pronto_translators lcm2ros
+
+You can test this:
+* Play back a ROS bag, traffic can be see with the bot-spy tool
+* Play back the logs mentioned above and some of the channels can be seen with rostopic
+
+Tested on Ubuntu 14.04 with ROS Indigo.
 
 Using the estimator with a third party controller
 -------------------------------------------------
 
 At MIT we use Pronto as our 333Hz Drake controller in a high-rate control loop. Latency
-and relability have allowed us to demonstrate challenging motions with the Atlas robot.
+and relability have allowed us to demonstrate challenging locomotion using the Atlas robot.
 
 If you are interested in using the estimator with your own controller, please get in touch.
-
 
 About LCM:
 ----------
@@ -203,9 +236,6 @@ message passing originally developed at MIT for the DARPA Urban Challenge.
 To those familiar with ROS, it serves the same purpose as the message passing in ROS: messages are typed data structures
 and code is compiled to allow C/C++, python and Java bindings. Data is received in a process
 via network communication and event-based function callbacks.
-
-We provide a LCM-to-ROS translation bridge to allow easy integration with a ROS-based system.
-Transmission 1-to-1 is straightforward.
 
 If you are interested in a native ROS application, please get in touch.
 
