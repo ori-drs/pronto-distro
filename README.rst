@@ -217,6 +217,48 @@ You can test this:
 
 Tested on Ubuntu 14.04 with ROS Indigo.
 
+Modifying the Translator for your system
+----------------------------------------
+I have provided a skeleton translator which I assume you will need
+to modify to use in your system. Get in touch if you would like some help in doing this. These are the required messages:
+(to be confirmed if this is exhausive)
+
+BDI's estimate of the Atlas position:
+* Source: BDI driver  (pos_est, filtered_imu fields)
+* Publish: POSE_BDI (bot_core_pose_t)
+
+The IMU measurements:
+* Source: BDI driver (the raw_imu field)
+* Publish: ATLAS_IMU_BATCH (atlas_raw_imu_batch_t)
+
+BDI's joint angle velocities, positions and efforts. Also the FT sensors
+* Source: BDI driver (jfeed, foot_sensors, wrist_sensors)
+* Publish: ATLAS_STATE (atlas_state_t)
+* Wrist sensors not used
+
+Ancillary data message from BDI (e.g. pump rpm, air sump pressure)
+* Source: BDI driver
+* Publish: ATLAS_STATUS (10Hz is fine)
+* TODO: revamp this, as I only need the current_behavior field (to distinguish walking and standing)
+
+The Multisense Lidar Scan:
+* Source: Multisense driver
+* Publish: SCAN (bot_core_planar_lidar_t)
+
+Angle of the Multisense SL Laser:
+* Source: both spindleAngleStart and spindleAngleEnd in CRL's lidar header
+* Publish: PRE_SPINDLE_TO_POST_SPINDLE (bot_core_rigid_transform_t)
+
+Message to tell SE where in the world to start
+* Source: The user: I always use a point above the origin - (0,0,0.85)
+* Publish: MAV_STATE_EST_VIEWER_MEASUREMENT (mav_indexed_measurement_t)
+* Publish: STATE_EST_READY  (a timestamp)
+
+Simple timestamp messages - used to provide commands:
+* STATE_EST_RESTART
+* STATE_EST_START_NEW_MAP
+
+
 Using the estimator with a third party controller
 -------------------------------------------------
 
