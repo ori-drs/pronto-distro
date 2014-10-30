@@ -1,8 +1,8 @@
 <?xml version="1.0"?>
 <package>
-  <name>pronto_translators</name>
+  <name>trooper_mlc_msgs</name>
   <version>0.0.0</version>
-  <description>The pronto_translators package</description>
+  <description>The trooper_mlc_msgs package</description>
 
   <!-- One maintainer tag required, multiple allowed, one person per tag --> 
   <!-- Example:  -->
@@ -19,7 +19,7 @@
   <!-- Url tags are optional, but mutiple are allowed, one per tag -->
   <!-- Optional attribute type can be: website, bugtracker, or repository -->
   <!-- Example: -->
-  <!-- <url type="website">http://wiki.ros.org/pronto_translators</url> -->
+  <!-- <url type="website">http://wiki.ros.org/trooper_mlc_msgs</url> -->
 
 
   <!-- Author tags are optional, mutiple are allowed, one per tag -->
@@ -46,6 +46,7 @@
   <run_depend>roscpp</run_depend>
   <run_depend>rospy</run_depend>
   <run_depend>std_msgs</run_depend>
+  <run_depend>message_runtime</run_depend>
 
 
   <!-- The export tag contains other, unspecified, tags -->
