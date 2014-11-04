@@ -11,15 +11,21 @@
 #include <iostream>
 #include <map>
 
+#include <Eigen/Dense>
+
 #include <sensor_msgs/Imu.h>
 #include <sensor_msgs/JointState.h>
 #include <nav_msgs/Odometry.h>
 #include <geometry_msgs/Wrench.h>
+#include <geometry_msgs/PoseStamped.h>
 #include <std_msgs/Float64.h>
 #include <std_msgs/String.h>
+#include <std_msgs/Int32.h>
 #include <sensor_msgs/LaserScan.h>
 #include <atlas_msgs/ForceTorqueSensors.h>
 #include <trooper_mlc_msgs/FootSensor.h>
+#include <trooper_mlc_msgs/CachedRawIMUData.h>
+#include <trooper_mlc_msgs/RawIMUData.h>
 
 #include <lcm/lcm-cpp.hpp>
 #include <lcmtypes/bot_core.hpp>
@@ -27,6 +33,7 @@
 #include "lcmtypes/pronto/force_torque_t.hpp"
 #include "lcmtypes/pronto/atlas_state_t.hpp"
 #include "lcmtypes/pronto/utime_t.hpp"
+#include "lcmtypes/pronto/atlas_raw_imu_batch_t.hpp"
 
 #include "lcmtypes/pronto/multisense_state_t.hpp"
 //#include <lcmtypes/multisense.hpp>
@@ -50,8 +57,12 @@ private:
   void appendFootSensor(pronto::force_torque_t& msg_out , trooper_mlc_msgs::FootSensor msg_in);
   
   // The position and orientation from BDI's own estimator:
-  ros::Subscriber pose_bdi_sub_;  
-  void pose_bdi_cb(const nav_msgs::OdometryConstPtr& msg);  
+  ros::Subscriber pose_bdi_sub_;
+  void pose_bdi_cb(const nav_msgs::OdometryConstPtr& msg);
+
+  // The position and orientation from a vicon system:
+  ros::Subscriber pose_vicon_sub_;
+  void pose_vicon_cb(const geometry_msgs::PoseStampedConstPtr& msg);
 
   // Multisense Joint Angles:
   ros::Subscriber  head_joint_states_sub_;  
@@ -71,11 +82,17 @@ private:
   ros::Subscriber imu_sub_;
   sensor_msgs::Imu imu_msg_;
 
-  //void imu_batch_cb(const sensor_msgs::ImuConstPtr& msg);
-  //ros::Subscriber imu_batch_sub_;
-  //sensor_msgs::Imu imu_batch_msg_;
+  void imu_batch_cb(const trooper_mlc_msgs::CachedRawIMUDataConstPtr& msg);
+  ros::Subscriber imu_batch_sub_;
+  sensor_msgs::Imu imu_batch_msg_;
 
-  void sendMultisenseState(int64_t utime, float angle);
+  void behavior_cb(const std_msgs::Int32ConstPtr& msg);
+  ros::Subscriber behavior_sub_;
+
+  void sendMultisenseState(int64_t utime, float position, float velocity);
+  
+  int64_t last_joint_state_utime_;
+  bool verbose_;
 };
 
 App::App(ros::NodeHandle node_, bool send_ground_truth_) :
@@ -92,11 +109,14 @@ App::App(ros::NodeHandle node_, bool send_ground_truth_) :
   if (send_ground_truth_){
     pose_bdi_sub_ = node_.subscribe(string("/ground_truth_odom"), 100, &App::pose_bdi_cb,this);
   }else{
-    pose_bdi_sub_ = node_.subscribe(string("/controller_mgr/bdi_odom"), 100, &App::pose_bdi_cb,this);
+    //pose_bdi_sub_ = node_.subscribe(string("/controller_mgr/bdi_odom"), 100, &App::pose_bdi_cb,this);
+    pose_bdi_sub_ = node_.subscribe(string("/robot_pose_service/odom"), 100, &App::pose_bdi_cb,this);
   }
+  pose_vicon_sub_ = node_.subscribe(string("/vicon/pelvis"), 100, &App::pose_vicon_cb,this);
+
 
   // Multisense Joint Angles:
-  head_joint_states_sub_ = node_.subscribe(string("/multisense_sl/joint_states"), 100, &App::head_joint_states_cb,this);
+  head_joint_states_sub_ = node_.subscribe(string("/spindle_state"), 100, &App::head_joint_states_cb,this);
 
   // Laser:
   rotating_scan_sub_ = node_.subscribe(string("/multisense_sl/laser/scan"), 100, &App::rotating_scan_cb,this);
@@ -104,8 +124,10 @@ App::App(ros::NodeHandle node_, bool send_ground_truth_) :
   // LM:
   foot_sensor_sub_ = node_.subscribe(string("/foot_contact_service/foot_sensor"), 100, &App::foot_sensor_cb,this);
   imu_sub_ = node_.subscribe(string("/imu_publisher_service/imu"), 100, &App::imu_cb,this);
-  //imu_batch_sub_ = node_.subscribe(string("/imu_publisher_service/raw_imu"), 100, &App::imu_batch_cb,this);
+  imu_batch_sub_ = node_.subscribe(string("/imu_publisher_service/raw_imu"), 100, &App::imu_batch_cb,this);
 
+  behavior_sub_ = node_.subscribe(string("/current_behavior"), 100, &App::behavior_cb,this);
+  verbose_ = false;
 };
 
 App::~App()  {
@@ -116,6 +138,18 @@ void App::foot_sensor_cb(const trooper_mlc_msgs::FootSensorConstPtr& msg){
   foot_sensor_ = *msg;
 }
 
+
+
+void App::behavior_cb(const std_msgs::Int32ConstPtr& msg){
+//  ROS_ERROR("BHER %d", msg->data );
+  pronto::atlas_behavior_t msg_out;
+
+  msg_out.utime = last_joint_state_utime_;
+  int temp = (int) msg->data;
+  msg_out.behavior = (int) temp;
+//  std::cout << msg_out.behavior << " out\n";
+  lcm_publish_.publish("ATLAS_BEHAVIOR", &msg_out);
+}
 
 
 int scan_counter=0;
@@ -146,13 +180,17 @@ void App::send_lidar(const sensor_msgs::LaserScanConstPtr& msg,string channel ){
 
 int gt_counter =0;
 void App::pose_bdi_cb(const nav_msgs::OdometryConstPtr& msg){
-  if (gt_counter%200 ==0){
-    ROS_ERROR("GRTH [%d]", gt_counter );
+  if (gt_counter%1000 ==0){
+    ROS_ERROR("BDI  [%d]", gt_counter );
   }  
   gt_counter++;
 
   bot_core::pose_t pose_msg;
   pose_msg.utime = (int64_t) floor(msg->header.stamp.toNSec()/1000);
+
+  if (verbose_)
+    std::cout <<"                                                            " << pose_msg.utime << " bdi\n";
+
   pose_msg.pos[0] = msg->pose.pose.position.x;
   pose_msg.pos[1] = msg->pose.pose.position.y;
   pose_msg.pos[2] = msg->pose.pose.position.z;
@@ -162,12 +200,24 @@ void App::pose_bdi_cb(const nav_msgs::OdometryConstPtr& msg){
   pose_msg.orientation[2] =  msg->pose.pose.orientation.y;
   pose_msg.orientation[3] =  msg->pose.pose.orientation.z;
 
-  // No BDI velocity in the logs
+  // April 2014: added conversion to body frame - so that both rates are in body frame
+  Eigen::Matrix3d R = Eigen::Matrix3d( Eigen::Quaterniond( msg->pose.pose.orientation.w, msg->pose.pose.orientation.x,
+                                                           msg->pose.pose.orientation.y, msg->pose.pose.orientation.z ));
+  Eigen::Vector3d lin_body_vel  = R*Eigen::Vector3d ( msg->twist.twist.linear.x, msg->twist.twist.linear.y,
+                                                      msg->twist.twist.linear.z );
+  pose_msg.vel[0] = lin_body_vel[0];
+  pose_msg.vel[1] = lin_body_vel[1];
+  pose_msg.vel[2] = lin_body_vel[2];
+
 
   // this is the body frame rate
-  pose_msg.rotation_rate[0] = imu_msg_.angular_velocity.x;
-  pose_msg.rotation_rate[1] = imu_msg_.angular_velocity.y;
-  pose_msg.rotation_rate[2] = imu_msg_.angular_velocity.z;
+  pose_msg.rotation_rate[0] = msg->twist.twist.angular.x;
+  pose_msg.rotation_rate[1] = msg->twist.twist.angular.y;
+  pose_msg.rotation_rate[2] = msg->twist.twist.angular.z;
+  // prefer to take all the info from one source
+//  pose_msg.rotation_rate[0] = imu_msg_.angular_velocity.x;
+//  pose_msg.rotation_rate[1] = imu_msg_.angular_velocity.y;
+//  pose_msg.rotation_rate[2] = imu_msg_.angular_velocity.z;
   
   // Frame?
   pose_msg.accel[0] = imu_msg_.linear_acceleration.x;
@@ -178,53 +228,71 @@ void App::pose_bdi_cb(const nav_msgs::OdometryConstPtr& msg){
   lcm_publish_.publish("POSE_BODY", &pose_msg);    // for now
 }
 
+void App::pose_vicon_cb(const geometry_msgs::PoseStampedConstPtr& msg){
+  bot_core::pose_t pose_msg;
+  pose_msg.utime = (int64_t) floor(msg->header.stamp.toNSec()/1000);
+  pose_msg.pos[0] = msg->pose.position.x;
+  pose_msg.pos[1] = msg->pose.position.y;
+  pose_msg.pos[2] = msg->pose.position.z;
+  pose_msg.orientation[0] =  msg->pose.orientation.w;
+  pose_msg.orientation[1] =  msg->pose.orientation.x;
+  pose_msg.orientation[2] =  msg->pose.orientation.y;
+  pose_msg.orientation[3] =  msg->pose.orientation.z;
+
+  lcm_publish_.publish("POSE_VICON", &pose_msg);
+}
+
+
+
+
 void App::imu_cb(const sensor_msgs::ImuConstPtr& msg){
   imu_msg_ = *msg;
 
-  pronto::atlas_behavior_t bmsg;
-  bmsg.utime = (int64_t) floor(msg->header.stamp.toNSec()/1000);
-  bmsg.behavior = 3; // 
-  lcm_publish_.publish("ATLAS_BEHAVIOR", &bmsg);     
 }
 
 
-/*
-void App::imu_batch_cb(int64_t robot_utime){
-  ROS_ERROR("IMU Batch" );
+void App::imu_batch_cb(const trooper_mlc_msgs::CachedRawIMUDataConstPtr& msg){
 
-  drc::atlas_raw_imu_batch_t imu;
-  imu.utime = robot_utime;
-  imu.num_packets = Atlas::NUM_RAW_IMU_PACKETS;
-  for (size_t i=0; i < Atlas::NUM_RAW_IMU_PACKETS ; i++){
+  pronto::atlas_raw_imu_batch_t imu;
+  imu.utime = (int64_t) floor(msg->header.stamp.toNSec()/1000);
+
+  if (verbose_)
+    std::cout <<"                              " << imu.utime << " imu\n";
+
+  imu.num_packets = 15;
+  for (size_t i=0; i < 15 ; i++){
     
     //std::cout << i
-    //  << " | " <<  s_data_from_robot.raw_imu[i].imu_timestamp
-    //  << " | " <<  s_data_from_robot.raw_imu[i].packet_count
-    //  << " | " <<  s_data_from_robot.raw_imu[i].dax << " " << s_data_from_robot.raw_imu[i].day << " " << s_data_from_robot.raw_imu[i].daz
-    //  << " | " <<  s_data_from_robot.raw_imu[i].ddx << " " << s_data_from_robot.raw_imu[i].ddy << " " << s_data_from_robot.raw_imu[i].ddz << "\n";
+    //  << " | " <<  msg->data[i].imu_timestamp
+    //  << " | " <<  msg->data[i].packet_count
+    //  << " | " <<  msg->data[i].dax << " " << msg->data[i].day << " " << msg->data[i].daz
+    //  << " | " <<  msg->data[i].ddx << " " << msg->data[i].ddy << " " << msg->data[i].ddz << "\n";
     
-    drc::atlas_raw_imu_t raw;
-    raw.utime = s_data_from_robot.raw_imu[i].imu_timestamp;
-    raw.packet_count = s_data_from_robot.raw_imu[i].packet_count;
-    raw.delta_rotation[0] = s_data_from_robot.raw_imu[i].dax;
-    raw.delta_rotation[1] = s_data_from_robot.raw_imu[i].day;
-    raw.delta_rotation[2] = s_data_from_robot.raw_imu[i].daz;
+    pronto::atlas_raw_imu_t raw;
+    raw.utime = msg->data[i].imu_timestamp;
+    raw.packet_count = msg->data[i].packet_count;
+    raw.delta_rotation[0] = msg->data[i].dax;
+    raw.delta_rotation[1] = msg->data[i].day;
+    raw.delta_rotation[2] = msg->data[i].daz;
     
-    raw.linear_acceleration[0] = s_data_from_robot.raw_imu[i].ddx;
-    raw.linear_acceleration[1] = s_data_from_robot.raw_imu[i].ddy;
-    raw.linear_acceleration[2] = s_data_from_robot.raw_imu[i].ddz;
+    raw.linear_acceleration[0] = msg->data[i].ddx;
+    raw.linear_acceleration[1] = msg->data[i].ddy;
+    raw.linear_acceleration[2] = msg->data[i].ddz;
     imu.raw_imu.push_back( raw );
   }
-  lcm_->publish( ("ATLAS_IMU_BATCH") , &imu);
+  lcm_publish_.publish( ("ATLAS_IMU_BATCH") , &imu);
 }
-*/
+
 
 
 void App::head_joint_states_cb(const sensor_msgs::JointStateConstPtr& msg){
-
+  int64_t utime = (int64_t) floor(msg->header.stamp.toNSec()/1000);
+  float position = msg->position[0];
+  float velocity = msg->velocity[0];
+  sendMultisenseState(utime, position, velocity);
 }
 
-void App::sendMultisenseState(int64_t utime, float angle){
+void App::sendMultisenseState(int64_t utime, float position, float velocity){
   pronto::multisense_state_t msg_out;
   msg_out.utime = utime;
   for (std::vector<int>::size_type i = 0; i < 13; i++)  {
@@ -235,14 +303,15 @@ void App::sendMultisenseState(int64_t utime, float angle){
   }  
   msg_out.num_joints = 13;
 
-  msg_out.joint_position[0] = angle;
+  msg_out.joint_position[0] = position;
+  msg_out.joint_velocity[0] = velocity;
   msg_out.joint_name[0] = "hokuyo_joint";
 
   msg_out.joint_name[1] = "pre_spindle_cal_x_joint";
   msg_out.joint_name[2] = "pre_spindle_cal_y_joint";
   msg_out.joint_name[3] = "pre_spindle_cal_z_joint";
 
-  msg_out.joint_name[4] = "pre_spindle_cal_rol_joint";
+  msg_out.joint_name[4] = "pre_spindle_cal_roll_joint";
   msg_out.joint_name[5] = "pre_spindle_cal_pitch_joint";
   msg_out.joint_name[6] = "pre_spindle_cal_yaw_joint";
 
@@ -257,6 +326,10 @@ void App::sendMultisenseState(int64_t utime, float angle){
   lcm_publish_.publish("MULTISENSE_STATE", &msg_out);  
 }
 
+
+inline int  getIndex(const std::vector<std::string> &vec, const std::string &str) {
+  return std::find(vec.begin(), vec.end(), str) - vec.begin();
+}
 
 int js_counter=0;
 void App::joint_states_cb(const sensor_msgs::JointStateConstPtr& msg){
@@ -295,6 +368,7 @@ in, in_name, out
 */
   std::vector< std::pair<int,int> > jm;
 
+/*
 jm.push_back (  std::make_pair(	0	,	16	));
 jm.push_back (  std::make_pair(	1	,	17	));
 jm.push_back (  std::make_pair(	2	,	15	));
@@ -322,19 +396,57 @@ jm.push_back (  std::make_pair(	43	,	3	));
 jm.push_back (  std::make_pair(	45	,	10	));
 jm.push_back (  std::make_pair(	47	,	0	));
 jm.push_back (  std::make_pair(	48	,	8	));
-jm.push_back (  std::make_pair(	49	,	27	));
+jm.push_back (  std::make_pair(	49	,	27	)); */
+
+
+  jm.push_back (  std::make_pair( getIndex(msg->name, "r_arm_shx") , 16  ));
+  jm.push_back (  std::make_pair( getIndex(msg->name, "r_arm_elx") , 17  ));
+  jm.push_back (  std::make_pair( getIndex(msg->name, "r_leg_akx") , 15  ));
+  jm.push_back (  std::make_pair( getIndex(msg->name, "back_bkx") , 2  ));
+  jm.push_back (  std::make_pair( getIndex(msg->name, "l_arm_wry") , 18  ));
+  jm.push_back (  std::make_pair( getIndex(msg->name, "r_leg_hpy") , 12  ));
+  jm.push_back (  std::make_pair( getIndex(msg->name, "r_arm_wry") , 19  ));
+  jm.push_back (  std::make_pair( getIndex(msg->name, "l_leg_kny") , 7  ));
+  jm.push_back (  std::make_pair( getIndex(msg->name, "l_arm_elx") , 20  ));
+  jm.push_back (  std::make_pair( getIndex(msg->name, "r_leg_aky") , 14  ));
+  jm.push_back (  std::make_pair( getIndex(msg->name, "l_arm_shy") , 21  ));
+  jm.push_back (  std::make_pair( getIndex(msg->name, "r_leg_kny") , 13  ));
+  jm.push_back (  std::make_pair( getIndex(msg->name, "r_arm_wrx") , 22  ));
+  jm.push_back (  std::make_pair( getIndex(msg->name, "l_leg_akx") , 9  ));
+  jm.push_back (  std::make_pair( getIndex(msg->name, "l_arm_ely") , 23  ));
+  jm.push_back (  std::make_pair( getIndex(msg->name, "l_arm_wrx") , 24  ));
+  jm.push_back (  std::make_pair( getIndex(msg->name, "l_leg_hpx") , 5  ));
+  jm.push_back (  std::make_pair( getIndex(msg->name, "l_leg_hpy") , 6  ));
+  jm.push_back (  std::make_pair( getIndex(msg->name, "l_leg_hpz") , 4  ));
+  jm.push_back (  std::make_pair( getIndex(msg->name, "r_leg_hpx") , 11  ));
+  jm.push_back (  std::make_pair( getIndex(msg->name, "l_arm_shx") , 25  ));
+  jm.push_back (  std::make_pair( getIndex(msg->name, "back_bky") , 1  ));
+  jm.push_back (  std::make_pair( getIndex(msg->name, "r_arm_shy") , 26  ));
+  jm.push_back (  std::make_pair( getIndex(msg->name, "neck_ry") , 3  ));
+  jm.push_back (  std::make_pair( getIndex(msg->name, "r_leg_hpz") , 10  ));
+  jm.push_back (  std::make_pair( getIndex(msg->name, "back_bkz") , 0  ));
+  jm.push_back (  std::make_pair( getIndex(msg->name, "l_leg_aky") , 8  ));
+  jm.push_back (  std::make_pair( getIndex(msg->name, "r_arm_ely") , 27  ));
 
   int n_joints = jm.size();
 
 
-
+  /*
   if (js_counter%500 ==0){
     std::cout << "J ST " << js_counter << "\n";
   }  
   js_counter++;
+  */
   
   pronto::atlas_state_t msg_out;
   msg_out.utime = (int64_t) msg->header.stamp.toNSec()/1000; // from nsec to usec  
+
+  if (verbose_)
+    std::cout << msg_out.utime << " jnt\n";
+
+  double elapsed_utime = (msg_out.utime - last_joint_state_utime_)*1E-6;
+  if (elapsed_utime>0.004)
+    std::cout << elapsed_utime << "   is elapsed_utime in sec\n";
 
   msg_out.joint_position.assign(n_joints , std::numeric_limits<int>::min()  );
   msg_out.joint_velocity.assign(n_joints , std::numeric_limits<int>::min()  );
@@ -349,13 +461,6 @@ jm.push_back (  std::make_pair(	49	,	27	));
   }
 
 
-  for (std::vector<int>::size_type i = 16; i < jm.size(); i++)  {
-    msg_out.joint_position[ i ] = 0;      
-    msg_out.joint_velocity[ i ] = 0;
-    msg_out.joint_effort[ i ] = 0;
-
-  }
-
   // Append FT sensor info
   pronto::force_torque_t force_torque;
   appendFootSensor(force_torque, foot_sensor_);
@@ -367,7 +472,9 @@ jm.push_back (  std::make_pair(	49	,	27	));
   utime_msg.utime = joint_utime;
   lcm_publish_.publish("ROBOT_UTIME", &utime_msg); 
 
-  sendMultisenseState(joint_utime, msg->position[22]);
+  //sendMultisenseState(joint_utime, msg->position[22], 0);
+
+  last_joint_state_utime_ = joint_utime;
 }
 
 
@@ -396,25 +503,6 @@ void App::appendFootSensor(pronto::force_torque_t& msg_out , trooper_mlc_msgs::F
 
 int main(int argc, char **argv){
   bool send_ground_truth = false;  
-
-  /*
-  std::string mode_argument;
-  if (argc >= 2){
-     mode_argument = argv[1];
-  }else {
-    ROS_ERROR("Need to have another argument in the launch file");
-  }
-  
-  if (mode_argument.compare("vrc_cheats_enabled") == 0){
-    send_ground_truth = true;
-  }else if (mode_argument.compare("vrc_cheats_disabled") == 0){
-    send_ground_truth = false;    
-  }else {
-    ROS_ERROR("mode_argument not understood");
-    std::cout << mode_argument << " is not understood\n";
-    exit(-1);
-  }
-  */
 
   ros::init(argc, argv, "ros2lcm");
   ros::NodeHandle nh;

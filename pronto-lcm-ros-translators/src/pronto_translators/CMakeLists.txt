@@ -185,4 +185,4 @@ pods_use_pkg_config_packages(lcm2ros lcm lcmtypes_pronto-lcmtypes bot2-core)
 
 add_executable(ros2lcm src/ros2lcm.cpp)
 target_link_libraries(ros2lcm ${catkin_LIBRARIES})
-pods_use_pkg_config_packages(ros2lcm lcm lcmtypes_pronto-lcmtypes bot2-core)  
+pods_use_pkg_config_packages(ros2lcm lcm lcmtypes_pronto-lcmtypes bot2-core eigen3)  
