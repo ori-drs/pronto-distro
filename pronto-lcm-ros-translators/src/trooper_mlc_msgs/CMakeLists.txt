@@ -1,10 +1,6 @@
 cmake_minimum_required(VERSION 2.8.3)
 
-
-include(cmake/pods.cmake)
-set(POD_NAME pronto_translators)
-
-project(pronto_translators)
+project(trooper_mlc_msgs)
 
 ## Find catkin macros and libraries
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
@@ -13,6 +9,7 @@ find_package(catkin REQUIRED COMPONENTS
   roscpp
   rospy
   std_msgs
+  message_generation
 )
 
 ## System dependencies are found with CMake's conventions
@@ -49,11 +46,12 @@ find_package(catkin REQUIRED COMPONENTS
 ##   * add every package in MSG_DEP_SET to generate_messages(DEPENDENCIES ...)
 
 ## Generate messages in the 'msg' folder
-# add_message_files(
-#   FILES
-#   Message1.msg
-#   Message2.msg
-# )
+add_message_files(
+   FILES
+   FootSensor.msg
+   RawIMUData.msg
+   CachedRawIMUData.msg
+)
 
 ## Generate services in the 'srv' folder
 # add_service_files(
@@ -70,10 +68,10 @@ find_package(catkin REQUIRED COMPONENTS
 # )
 
 ## Generate added messages and services with any dependencies listed here
-# generate_messages(
-#   DEPENDENCIES
-#   std_msgs
-# )
+generate_messages(
+  DEPENDENCIES
+  std_msgs
+)
 
 ###################################
 ## catkin specific configuration ##
@@ -87,7 +85,7 @@ find_package(catkin REQUIRED COMPONENTS
 catkin_package(
 #  INCLUDE_DIRS include
 #  LIBRARIES beginner_tutorials
-#  CATKIN_DEPENDS roscpp rospy std_msgs
+  CATKIN_DEPENDS message_runtime
 #  DEPENDS system_lib
 )
 
@@ -169,24 +167,3 @@ include_directories(
 
 
 include_directories(include ${catkin_INCLUDE_DIRS})
-
-#add_executable(talker src/talker.cpp)
-#target_link_libraries(talker ${catkin_LIBRARIES})
-#add_dependencies(talker beginner_tutorials_generate_messages_cpp)
-
-#add_executable(listener src/listener.cpp)
-#target_link_libraries(listener ${catkin_LIBRARIES})
-#add_dependencies(listener beginner_tutorials_generate_messages_cpp)
-
-
-add_executable(lcm2ros src/lcm2ros.cpp)
-target_link_libraries(lcm2ros ${catkin_LIBRARIES})
-pods_use_pkg_config_packages(lcm2ros lcm lcmtypes_pronto-lcmtypes bot2-core)  
-
-add_executable(ros2lcm src/ros2lcm.cpp)
-target_link_libraries(ros2lcm ${catkin_LIBRARIES})
-pods_use_pkg_config_packages(ros2lcm lcm lcmtypes_pronto-lcmtypes bot2-core eigen3)  
-
-add_executable(ros2lcm_tl src/ros2lcm_tl.cpp)
-target_link_libraries(ros2lcm_tl ${catkin_LIBRARIES})
-pods_use_pkg_config_packages(ros2lcm_tl lcm lcmtypes_pronto-lcmtypes bot2-core eigen3)  
