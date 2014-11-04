@@ -200,6 +200,7 @@ void App::pose_bdi_cb(const nav_msgs::OdometryConstPtr& msg){
   pose_msg.orientation[2] =  msg->pose.pose.orientation.y;
   pose_msg.orientation[3] =  msg->pose.pose.orientation.z;
 
+  // This transformation is NOT correct for Trooper
   // April 2014: added conversion to body frame - so that both rates are in body frame
   Eigen::Matrix3d R = Eigen::Matrix3d( Eigen::Quaterniond( msg->pose.pose.orientation.w, msg->pose.pose.orientation.x,
                                                            msg->pose.pose.orientation.y, msg->pose.pose.orientation.z ));
