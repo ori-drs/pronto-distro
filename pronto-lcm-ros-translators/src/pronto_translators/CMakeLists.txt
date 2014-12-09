@@ -170,14 +170,6 @@ include_directories(
 
 include_directories(include ${catkin_INCLUDE_DIRS})
 
-#add_executable(talker src/talker.cpp)
-#target_link_libraries(talker ${catkin_LIBRARIES})
-#add_dependencies(talker beginner_tutorials_generate_messages_cpp)
-
-#add_executable(listener src/listener.cpp)
-#target_link_libraries(listener ${catkin_LIBRARIES})
-#add_dependencies(listener beginner_tutorials_generate_messages_cpp)
-
 
 add_executable(lcm2ros src/lcm2ros.cpp)
 target_link_libraries(lcm2ros ${catkin_LIBRARIES})
@@ -191,4 +183,14 @@ add_dependencies(ros2lcm trooper_mlc_msgs_generate_messages_cpp)
 add_executable(ros2lcm_tl src/ros2lcm_tl.cpp)
 target_link_libraries(ros2lcm_tl ${catkin_LIBRARIES})
 pods_use_pkg_config_packages(ros2lcm_tl lcm lcmtypes_pronto-lcmtypes bot2-core eigen3)  
-add_dependencies(ros2lcm_tl atlas_hardware_interface_generate_messages_cpp)  
+add_dependencies(ros2lcm_tl atlas_hardware_interface_generate_messages_cpp)
+
+
+add_executable(ros2lcm_ihmc src/ros2lcm_ihmc.cpp)
+target_link_libraries(ros2lcm_ihmc ${catkin_LIBRARIES})
+pods_use_pkg_config_packages(ros2lcm_ihmc lcm lcmtypes_pronto-lcmtypes bot2-core eigen3)
+add_dependencies(ros2lcm_ihmc trooper_mlc_msgs_generate_messages_cpp)
+
+add_executable(lcm2ros_ihmc src/lcm2ros_ihmc.cpp)
+target_link_libraries(lcm2ros_ihmc ${catkin_LIBRARIES})
+pods_use_pkg_config_packages(lcm2ros_ihmc lcm lcmtypes_pronto-lcmtypes bot2-core)
