@@ -4,7 +4,7 @@
 concise-args
 stl-utils
 geom-utils
-image-utils
+#image-utils
 laser-utils
 octomap-utils 
 path-util
