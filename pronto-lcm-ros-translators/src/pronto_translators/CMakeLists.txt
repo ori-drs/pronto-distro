@@ -184,13 +184,3 @@ add_executable(ros2lcm_tl src/ros2lcm_tl.cpp)
 target_link_libraries(ros2lcm_tl ${catkin_LIBRARIES})
 pods_use_pkg_config_packages(ros2lcm_tl lcm lcmtypes_pronto-lcmtypes bot2-core eigen3)  
 add_dependencies(ros2lcm_tl atlas_hardware_interface_generate_messages_cpp)
-
-
-add_executable(ros2lcm_ihmc src/ros2lcm_ihmc.cpp)
-target_link_libraries(ros2lcm_ihmc ${catkin_LIBRARIES})
-pods_use_pkg_config_packages(ros2lcm_ihmc lcm lcmtypes_pronto-lcmtypes bot2-core eigen3)
-add_dependencies(ros2lcm_ihmc trooper_mlc_msgs_generate_messages_cpp)
-
-add_executable(lcm2ros_ihmc src/lcm2ros_ihmc.cpp)
-target_link_libraries(lcm2ros_ihmc ${catkin_LIBRARIES})
-pods_use_pkg_config_packages(lcm2ros_ihmc lcm lcmtypes_pronto-lcmtypes bot2-core)
