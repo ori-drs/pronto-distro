@@ -86,7 +86,7 @@ octomap.bt_blurred in the build/data/ directory.
 
 ::
 
-  http://people.csail.mit.edu/mfallon/pronto_logs/
+  http://homepages.inf.ed.ac.uk/mfallon2/share/pronto_logs/
 
 To process a log run these processes:
 
@@ -192,7 +192,6 @@ On ROS Indigo the follow contents should be added to bashrc:
 
   export PATH=/home/drc/pronto-distro/build/bin:$PATH
   source /opt/ros/indigo/setup.bash
-  source /usr/share/drcsim/setup.sh
   export PKG_CONFIG_PATH=<insert-path-to>/pronto-distro/build/lib/pkgconfig/:<insert-path-to>/pronto-distro/build/lib64/pkgconfig/:$PKG_CONFIG_PATH
   export LD_LIBRARY_PATH=<insert-path-to>/pronto-distro/build/lib/:<insert-path-to>/pronto-distro/build/lib64/:$LD_LIBRARY_PATH
 
@@ -212,6 +211,7 @@ And then a translators can be run in each direction:
   rosrun pronto_translators lcm2ros
 
 You can test this:
+
 * Play back a ROS bag, traffic can be see with the bot-spy tool
 * Play back the logs mentioned above and some of the channels can be seen with rostopic
 
