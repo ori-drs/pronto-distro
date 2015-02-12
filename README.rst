@@ -60,7 +60,7 @@ Check out the source code using git:
 
 ::
 
-    git clone git@github.com:drcbot/drc.git
+    git clone https://github.com/mitdrc/pronto-distro.git
     cd pronto-distro
     git submodule update --init --recursive
 
