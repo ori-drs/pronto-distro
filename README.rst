@@ -145,7 +145,7 @@ First of all, pronto can be used as an module within your system without any cha
 simply produces a better state estimator - enabling more rapid walking.
 
 Using the estimator with the Atlas Stepping Behaviour
------------------------------------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 **Performance:** With inertial and kinematic input (i.e. no LIDAR input) the drift rate of the 
 estimator is **2cm per 10 steps travelled**. We estimate this to be 10 times better 
@@ -183,7 +183,7 @@ Use this pose to render the robot in your system, and maintain the relative POSE
 so as to transform footsteps to the correct positions for the stepping controller.
 
 Using the Estimator With ROS
-----------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 We provide a LCM-to-ROS translation bridge to allow easy integration with a ROS-based system.
 On ROS Indigo the follow contents should be added to bashrc: 
@@ -218,7 +218,7 @@ You can test this:
 Tested on Ubuntu 14.04 with ROS Indigo.
 
 Modifying the Translator for your system
-----------------------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 I have provided a skeleton translator which I assume you will need
 to modify to use in your system. Get in touch if you would like some help in doing this. These are the required messages:
 (to be confirmed if this is exhausive)
@@ -268,15 +268,40 @@ Simple timestamp messages - used to provide commands:
 
 
 Using the estimator with a third party controller
--------------------------------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 At MIT we use Pronto as our 333Hz Drake controller in a high-rate control loop. Latency
 and relability have allowed us to demonstrate challenging locomotion using the Atlas robot.
 
 If you are interested in using the estimator with your own controller, please get in touch.
 
-About LCM:
-----------
+Micro Aerial Vehicles
+---------------------
+
+Pronto was originally developed for Micro Aerial Vehicle state estimation.
+
+.. image:: http://img.youtube.com/vi/kYs215TgI7c/0.jpg
+   :target: https://www.youtube.com/watch?v=kYs215TgI7c
+
+`Micro aerial vehicle estimation <https://www.youtube.com/watch?v=kYs215TgI7c>`_
+
+Log files demonstrating flight with Quadrotators and Fixed-wing RC Planes can
+be provided on request.
+
+Supported sensor of interest to aerial flight:
+
+* GPS - x, y, z
+* Vicon - x, y, z and orientation
+* Laser Scanmatcher - x, y, z and yaw or velocity and yaw rate
+* Optical Flow - velocity, yaw rate (downward facing camera)
+* Airspeed - forward velocity
+* Altimeter - z
+* Sideslip - lateral velocity
+
+And example configuration for these sensors is in docs/aerial_sensors_example.cfg
+
+About LCM
+=========
 
 Currently Pronto uses LCM to receive data and to publish output.
 
@@ -304,7 +329,12 @@ the `MIT Robust Robotics Group <http://groups.csail.mit.edu/rrg/>`_.
 Extended to support humanoid motion by Maurice Fallon with the help
 of the `MIT DARPA Robotics Challenge Team <http://www.drc.mit.edu>`_.
 
+Additional contributions from:
+
+* Andy Barry
+* Pat Marion
+
 The License information is available in the LICENSE file attached to this document.
 
-Maurice Fallon, October 2014. mfallon@mit.edu
+Maurice Fallon, Feb 2015. maurice.fallon@ed.ac.uk
 
