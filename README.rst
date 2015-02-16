@@ -283,7 +283,7 @@ Pronto was originally developed for Micro Aerial Vehicle state estimation.
 .. image:: http://img.youtube.com/vi/kYs215TgI7c/0.jpg
    :target: https://www.youtube.com/watch?v=kYs215TgI7c
 
-`Micro aerial vehicle estimation <https://www.youtube.com/watch?v=kYs215TgI7c>`_
+`Micro aerial vehicle estimation using Pronto <https://www.youtube.com/watch?v=kYs215TgI7c>`_
 
 Log files demonstrating flight with Quadrotators and Fixed-wing RC Planes can
 be provided on request.
