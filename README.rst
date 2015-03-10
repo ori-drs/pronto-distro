@@ -96,6 +96,12 @@ To process a log run these processes:
   pronto-viewer
   lcm-logplayer-gui typical-lcmlog-2014-04-21-15-13-robot-part
 
+You can view the octomap that's being localized against using octomap-server:
+
+::
+
+  octomap-server octomap.bt
+
 Some notes:
 
 * All the state estimation is done in se-fusion. It listens to messages published 
@@ -105,12 +111,8 @@ Some notes:
 * Make sure that POSE_BODY and STATE_ESTIMATOR_STATE are disabled 
   (they were the position generated during the run)
 * bot-spy is a tool for inspecting the messages.
-* You can view the octomap that's being localized using octomap-server:
 * NEW 2015: Switch atlas_v3/atlas_v4/atlas_v5 for different Atlas version numbers
 
-::
-
-  octomap-server octomap.bt
 
 There are two other logs that work in the same way:
 
