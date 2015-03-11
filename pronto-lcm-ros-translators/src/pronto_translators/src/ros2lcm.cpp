@@ -302,27 +302,11 @@ void App::sendMultisenseState(int64_t utime, float position, float velocity){
     msg_out.joint_velocity.push_back(0);
     msg_out.joint_effort.push_back(0);
   }  
-  msg_out.num_joints = 13;
+  msg_out.num_joints = 1;
 
   msg_out.joint_position[0] = position;
   msg_out.joint_velocity[0] = velocity;
   msg_out.joint_name[0] = "hokuyo_joint";
-
-  msg_out.joint_name[1] = "pre_spindle_cal_x_joint";
-  msg_out.joint_name[2] = "pre_spindle_cal_y_joint";
-  msg_out.joint_name[3] = "pre_spindle_cal_z_joint";
-
-  msg_out.joint_name[4] = "pre_spindle_cal_roll_joint";
-  msg_out.joint_name[5] = "pre_spindle_cal_pitch_joint";
-  msg_out.joint_name[6] = "pre_spindle_cal_yaw_joint";
-
-  msg_out.joint_name[7] = "post_spindle_cal_x_joint";
-  msg_out.joint_name[8] = "post_spindle_cal_x_joint";
-  msg_out.joint_name[9] = "post_spindle_cal_x_joint";
-
-  msg_out.joint_name[10] = "post_spindle_cal_roll_joint";
-  msg_out.joint_name[11] = "post_spindle_cal_pitch_joint";
-  msg_out.joint_name[12] = "post_spindle_cal_yaw_joint";
 
   lcm_publish_.publish("MULTISENSE_STATE", &msg_out);  
 }
