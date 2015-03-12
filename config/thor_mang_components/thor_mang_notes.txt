@@ -1,0 +1,25 @@
+Measurements in the logs:
+/clock
+/tf
+/thor_mang/joint_states
+/thor_mang/l_foot_raw
+/thor_mang/pelvis_imu
+/thor_mang/r_foot_raw
+
+imu is orientated in the same manner as the robot
+bdi imu reads z = -9.81 and is orientated upside down
+
+total mass of the robot: 60-65kg or 600-650N
+... maybe less as...
+
+Left foot isn't properly calibrated. its force when off the ground is 100N
+- could weigh 50kg as a result
+
+60Hz currently
+Due to low rate, needed to increae this in leg_estimate.cpp
+-  if ( (current_utime_ - previous_utime_)*1E-6 > 30E-3){
++  if ( (current_utime_ - previous_utime_)*1E-6 > 100E-3){
+
+
+next steps:
+- study whats going on with kinematics, doesnt' seem to be behaviour properly

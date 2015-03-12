@@ -1,0 +1,63 @@
+group "0.params_and_model_pub" {
+    cmd "pserver" {
+        exec = "bot-param-server /home/mfallon/otherprojects/pronto-distro/config/thor_mang.cfg";
+        host = "localhost";
+    }
+
+    cmd "model_LR_RR" {
+        exec = "robot_model_publisher /home/mfallon/drc/software/models/thor_mang_description/model.urdf";
+        host = "localhost";
+    }
+
+}
+
+group "1.state_est" {
+    cmd "ss-simple" {
+        exec = "se-state-sync-simple";
+        host = "localhost";
+    }
+    cmd "fusion" {
+        exec = "se-fusion -U thor_mang_description/model.urdf -P thor_mang.cfg";
+        host = "localhost";
+    }
+}
+
+cmd "designer" {
+    exec = "/home/mfallon/otherprojects/pronto-distro/config/thor_mang_components/launch_designer.sh";
+    host = "localhost";
+}
+
+cmd "viewer" {
+    exec = "drc-viewer /home/mfallon/otherprojects/pronto-distro/config/thor_mang.cfg";
+    host = "localhost";
+}
+
+cmd "designer-full" {
+    exec = "drake-designer --director_config /home/mfallon/drc/software/models/thor_mang_description/director_config.json -c /home/mfallon/otherprojects/pronto-distro/config/thor_mang.cfg";
+    host = "localhost";
+}
+
+
+cmd "log1" {
+    exec = "lcm-logplayer-gui /home/mfallon/logs/thor_mang/2015-02-19-23-37-10.lcmlog -p";
+    host = "localhost";
+}
+
+cmd "log2" {
+    exec = "lcm-logplayer-gui /home/mfallon/logs/thor_mang/2015-02-19-23-38-33.lcmlog -p";
+    host = "localhost";
+}
+
+script "start1" {
+    start group "0.params_and_model_pub";
+    start group "1.state_est";
+    start cmd "designer";
+    start cmd "log1";
+}
+
+script "start2" {
+    start group "0.params_and_model_pub";
+    start group "1.state_est";
+    start cmd "designer";
+    start cmd "log2";
+}

@@ -1,16 +1,4 @@
-/*
-/clock
-/tf
-/thor_mang/joint_states
-/thor_mang/l_foot_raw
-/thor_mang/pelvis_imu
-/thor_mang/r_foot_raw
-*/
-
-// imu is actually upside down.
-// bdi imu reads z = -9.81
-
-// Selective ros2lcm translator
+// Selective ros2lcm translator for thor mang
 // mfallon
 #include <boost/thread.hpp>
 #include <boost/shared_ptr.hpp>
