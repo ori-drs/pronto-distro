@@ -226,7 +226,7 @@ void App::pose_bdi_cb(const nav_msgs::OdometryConstPtr& msg){
   pose_msg.accel[2] = imu_msg_.linear_acceleration.z;
 
   lcm_publish_.publish("POSE_BDI", &pose_msg);   
-  lcm_publish_.publish("POSE_BODY", &pose_msg);    // for now
+  // lcm_publish_.publish("POSE_BODY", &pose_msg);    // for now
 }
 
 void App::pose_vicon_cb(const geometry_msgs::PoseStampedConstPtr& msg){
