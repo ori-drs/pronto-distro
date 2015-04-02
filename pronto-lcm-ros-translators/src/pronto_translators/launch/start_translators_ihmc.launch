@@ -1,0 +1,13 @@
+<launch>
+        <node name="ros2lcm" type="ros2lcm" pkg="pronto_translators" output="screen">
+                <remap from="/joint_states" to="/ihmc_ros/atlas/output/joint_states" />
+                <remap from="/robot_pose_service/odom" to="/ihmc_ros/atlas/output/robot_pose" />
+                <remap from="/spindle_state" to="/multisense/joint_states" />
+                <remap from="/multisense_sl/laser/scan" to="/multisense/lidar_scan" />
+                <remap from="/imu_publisher_service/imu" to="/ihmc_ros/atlas/output/pelvisImu" />
+                <remap from="/imu_publisher_service/raw_imu" to="/ihmc_ros/atlas/output/batch_raw_imu" />
+        </node>
+        <node name="lcm2ros" type="lcm2ros" pkg="pronto_translators" output="screen">
+                <remap from="/pose_body" to="/ihmc_ros/localization/pelvis_odom_pose_correction" />
+        </node>
+</launch>

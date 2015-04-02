@@ -1,0 +1,37 @@
+group "0.params_and_model_pub" {
+    cmd "pserver" {
+        exec = "bot-param-server /home/mfallon/otherprojects/pronto-distro/config/drc_robot_02_mit_no_laser.cfg";
+        host = "localhost";
+    }
+
+    cmd "model_LR_RR" {
+        exec = "robot_model_publisher /home/mfallon/drc/software/models/atlas_v4/model_LR_RR.urdf";
+        host = "localhost";
+    }
+
+}
+
+group "1.state_est" {
+    cmd "sync" {
+        exec = "se-state-sync";
+        host = "localhost";
+    }
+    cmd "j2f" {
+        exec = "drc-joints2frames";
+        host = "localhost";
+    }
+    cmd "fusion" {
+        exec = "se-fusion";
+        host = "localhost";
+    }
+}
+
+cmd "play_bag" {
+    exec = "rosbag play  /home/mfallon/logs/pronto_users/ihmc/pronto_test_ihmc_2015-03-31-12-49-37.bag";
+    host = "localhost";
+}
+
+cmd "ros_trans_ihmc" {
+    exec = "roslaunch pronto_translators start_translators_ihmc.launch";
+    host = "localhost";
+}
