@@ -1,5 +1,6 @@
 cmake_minimum_required(VERSION 2.8.3)
-
+# needed for string arrays
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++0x -Wno-deprecated-declarations")
 
 include(cmake/pods.cmake)
 set(POD_NAME pronto_translators)
@@ -181,8 +182,11 @@ target_link_libraries(ros2lcm ${catkin_LIBRARIES})
 pods_use_pkg_config_packages(ros2lcm lcm lcmtypes_pronto-lcmtypes bot2-core eigen3) 
 add_dependencies(ros2lcm trooper_mlc_msgs_generate_messages_cpp) 
 
+# this same translator is used by Edinburgh:
+add_executable(ros2lcm_ihmc src/ros2lcm_ihmc.cpp)
+target_link_libraries(ros2lcm_ihmc ${catkin_LIBRARIES})
+pods_use_pkg_config_packages(ros2lcm_ihmc lcm lcmtypes_pronto-lcmtypes bot2-core eigen3)
 
 add_executable(ros2lcm_thormang src/ros2lcm_thormang.cpp)
 target_link_libraries(ros2lcm_thormang ${catkin_LIBRARIES})
 pods_use_pkg_config_packages(ros2lcm_thormang lcm lcmtypes_pronto-lcmtypes bot2-core eigen3) 
-#add_dependencies(ros2lcm trooper_mlc_msgs_generate_messages_cpp) 
