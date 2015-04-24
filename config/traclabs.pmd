@@ -1,0 +1,62 @@
+group "0.params_and_model_pub" {
+    cmd "pserver" {
+        exec = "bot-param-server /home/mfallon/otherprojects/pronto-distro/config/drc_robot_02_mit_no_laser.cfg";
+        host = "localhost";
+    }
+
+    cmd "model_LR_RR" {
+        exec = "robot_model_publisher /home/mfallon/otherprojects/pronto-distro/models/atlas_v4/model_LR_RR.urdf";
+        host = "localhost";
+    }
+
+}
+
+group "1.state_mit" {
+
+    cmd "joints2frames" {
+        exec = "drc-joints2frames";
+        host = "localhost";
+    }
+
+    cmd "state-sync" {
+        exec = "drc-state-sync -k";
+        host = "localhost";
+    }
+    cmd "fusion" {
+        exec = "se-fusion";
+        host = "localhost";
+    }
+    cmd "ms-to-frame" {
+        exec = "pronto-multisense-to-frame -o 4.22";
+        host = "localhost";
+    }
+}
+
+cmd "ddapp" {
+    exec = "dd";
+    host = "localhost";
+}
+
+
+cmd "fusion-snippet" {
+    exec = "se-fusion -U ../models/atlas_v4/model_LR_RR.urdf -P drc_robot_02_mit_no_laser.cfg -L ~/logs/pronto_users/traclabs/2015-04-10-batch4/lcmlog-2015-04-10.01.snippet  -pr 0";
+    host = "localhost";
+}
+
+
+cmd "log" {
+    exec = "lcm-logplayer-gui /home/mfallon/logs/pronto_users/traclabs/2015-04-10-batch4/lcmlog-2015-04-10.01 -p";
+    host = "localhost";
+}
+
+cmd "log-snippet" {
+    exec = "lcm-logplayer-gui /home/mfallon/logs/pronto_users/traclabs/2015-04-10-batch4/lcmlog-2015-04-10.01 -p";
+    host = "localhost";
+}
+
+
+script "0.prep" {
+    start group "0.params_and_model_pub";
+    start cmd "ddapp";
+}
+

@@ -1,7 +1,11 @@
 <launch>
-        <node name="ros2lcm_ihmc" type="ros2lcm_ihmc" pkg="pronto_translators" output="screen" args="mode_state_estimation">
-        </node>
-        <node name="lcm2ros" type="lcm2ros" pkg="pronto_translators" output="screen">
-                <remap from="/pose_body" to="/ihmc_ros/localization/pelvis_odom_pose_correction" />
-        </node>
+  <arg name="robotName" default="atlas" />
+  <arg name="mode" default="state_estimation" />
+  <arg name="imuSensor" default="pelvis_imu_sensor_at_imu_frame" />
+
+  <node name="ros2lcm_ihmc" type="ros2lcm_ihmc" pkg="pronto_translators" output="screen" args="$(arg mode) $(arg robotName) $(arg imuSensor)">
+  </node>
+  <node name="lcm2ros" type="lcm2ros" pkg="pronto_translators" output="screen">
+    <remap from="/pose_body" to="/ihmc_ros/localization/pelvis_odom_pose_correction" />
+  </node>
 </launch>
