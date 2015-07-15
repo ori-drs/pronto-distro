@@ -22,7 +22,7 @@
 #include <std_msgs/Float64.h>
 #include <std_msgs/String.h>
 #include <std_msgs/Int32.h>
-#include <atlas_msgs/ForceTorqueSensors.h>
+//#include <atlas_msgs/ForceTorqueSensors.h>
 
 #include <lcm/lcm-cpp.hpp>
 #include <lcmtypes/bot_core.hpp>

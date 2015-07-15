@@ -22,7 +22,7 @@
 #include <std_msgs/String.h>
 #include <std_msgs/Int32.h>
 #include <sensor_msgs/LaserScan.h>
-#include <atlas_msgs/ForceTorqueSensors.h>
+//#include <atlas_msgs/ForceTorqueSensors.h>
 #include <trooper_mlc_msgs/FootSensor.h>
 #include <trooper_mlc_msgs/CachedRawIMUData.h>
 #include <trooper_mlc_msgs/RawIMUData.h>

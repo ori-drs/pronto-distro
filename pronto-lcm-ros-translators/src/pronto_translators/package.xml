@@ -49,6 +49,9 @@
   <run_depend>std_msgs</run_depend>
   <run_depend>atlas_hardware_interface</run_depend>
 
+  <build_depend>ihmc_msgs</build_depend>
+  <run_depend>ihmc_msgs</run_depend>
+
 
   <!-- The export tag contains other, unspecified, tags -->
   <export>
