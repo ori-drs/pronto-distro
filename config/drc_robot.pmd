@@ -1,0 +1,70 @@
+group "00.params_and_model_pub" {
+    cmd "pserver" {
+        exec = "bot-param-server drc_robot.cfg";
+        host = "localhost";
+    }
+
+    cmd "model_LR_RR" {
+        exec = "robot_model_publisher ../models/atlas_v5/model_LR_RR.urdf";
+        host = "localhost";
+    }
+
+}
+
+group "01.state_mit" {
+
+    cmd "joints2frames" {
+        exec = "drc-joints2frames";
+        host = "localhost";
+    }
+
+    cmd "state-sync" {
+        exec = "drc-state-sync -a5";
+        host = "localhost";
+    }
+    cmd "fusion" {
+        exec = "se-fusion -v";
+        host = "localhost";
+    }
+    cmd "yaw-lock" {
+        exec = "se-yaw-lock -yd";
+        host = "localhost";
+    }
+}
+
+group "01.state_mit_from_logfile" {
+    cmd "fusion" {
+        exec = "se-fusion  -L /home/mfallon/logs/atlas/2015-04-29-terrain-success/terrain.lcmlog   -P drc_robot_from_logfile.cfg   -pr 0";
+        host = "localhost";
+    }
+}
+
+
+cmd "log_terrain" {
+    exec = "lcm-logplayer-gui /home/mfallon/logs/atlas/2015-04-29-terrain-success/terrain.lcmlog -p";
+    host = "localhost";
+}
+
+cmd "viewer" {
+    exec = "pronto-viewer -c drc_robot.cfg";
+    host = "localhost";
+}
+
+cmd "designer" {
+    exec = "drake-designer -v5";
+    host = "localhost";
+}
+
+script "0.full" {
+    start group "00.params_and_model_pub";
+    wait ms 1000;
+    start group "01.state_mit";
+    start cmd "viewer";
+    start cmd "designer";
+}
+
+script "1.minimal" {
+    start group "01.state_mit_from_logfile";
+    start cmd "viewer";
+}
+
