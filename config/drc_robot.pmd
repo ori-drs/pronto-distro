@@ -58,7 +58,10 @@ script "0.full" {
     start cmd "viewer";
 }
 
-script "1.minimal" {
+script "1.from_logfile" {
+    start group "00.params_and_model_pub";
+    wait ms 1000;
+    start cmd "state-sync";
     start group "01.state_mit_from_logfile";
     start cmd "viewer";
 }
