@@ -14,16 +14,16 @@ group "00.params_and_model_pub" {
 group "01.state_mit" {
 
     cmd "joints2frames" {
-        exec = "drc-joints2frames";
+        exec = "joints2frames";
         host = "localhost";
     }
 
     cmd "state-sync" {
-        exec = "drc-state-sync -a5";
+        exec = "state-sync -a5";
         host = "localhost";
     }
     cmd "fusion" {
-        exec = "se-fusion -v";
+        exec = "se-fusion";
         host = "localhost";
     }
     cmd "yaw-lock" {
@@ -50,20 +50,18 @@ cmd "viewer" {
     host = "localhost";
 }
 
-cmd "designer" {
-    exec = "drake-designer -v5";
-    host = "localhost";
-}
 
 script "0.full" {
     start group "00.params_and_model_pub";
     wait ms 1000;
     start group "01.state_mit";
     start cmd "viewer";
-    start cmd "designer";
 }
 
-script "1.minimal" {
+script "1.from_logfile" {
+    start group "00.params_and_model_pub";
+    wait ms 1000;
+    start cmd "state-sync";
     start group "01.state_mit_from_logfile";
     start cmd "viewer";
 }
