@@ -74,16 +74,11 @@ The compile time is about 4 mins.
 
 Signal Scope
 ------------
-Signal Scope is a lightweight signal plotting tool. Its invaluable for debugging systems such as Pronto. 
+Signal Scope is a lightweight signal plotting tool. Its invaluable for debugging 
+systems such as Pronto. It was developed for the MIT DRC by Pat Marion.
 
-To build it:
-
-::
-
-    cd signal-scope
-    make
-
-Launch it by pointing it to a python config file in config/signal_scope
+Launch it by pointing it to a python config file in config/signal_scope. 
+There are many examples of using it in signal_scope/examples.
 
 ![Signal Scope](/signal_scope.png)
 
