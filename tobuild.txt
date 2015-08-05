@@ -4,3 +4,6 @@
 externals
 kinematics-utils
 pronto
+
+#add on tool for plotting signals, disable by default
+#signal-scope

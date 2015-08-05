@@ -7,3 +7,6 @@
 [submodule "externals/frsm"]
 	path = externals/frsm
 	url = https://github.com/mitdrc/frsm
+[submodule "signal-scope"]
+	path = signal-scope
+	url = https://github.com/mitdrc/signal-scope
