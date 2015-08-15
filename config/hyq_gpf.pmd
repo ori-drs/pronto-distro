@@ -1,0 +1,89 @@
+group "00.params_and_model_pub" {
+    cmd "pserver" {
+        exec = "bot-param-server hyq.cfg";
+        host = "localhost";
+    }
+
+    cmd "model_LR_RR" {
+        exec = "robot_model_publisher ../models/mit_gazebo_models/hyq_description/robots/hyq.urdf";
+        host = "localhost";
+    }
+
+}
+
+group "01.state_est" {
+
+
+    cmd "fusion" {
+        exec = "se-fusion";
+        host = "localhost";
+    }
+    cmd "state-sync" {
+        exec = "se-state-sync-simple-hyq";
+        host = "localhost";
+    }
+}
+
+group "01.state_mit_from_logfile" {
+    cmd "fusion" {
+        exec = "se-fusion  -L /home/mfallon/logs/hyq/2015-04-30-forward-back/2015-04-30-16-53-45.lcmlog   -P hyq.cfg   -pr 0";
+        host = "localhost";
+    }
+}
+
+
+cmd "log_terrain" {
+    exec = "lcm-logplayer-gui /home/mfallon/logs/hyq/2015-04-30-forward-back/2015-04-30-16-53-45.lcmlog -p";
+    host = "localhost";
+}
+
+cmd "log_trot" {
+    exec = "lcm-logplayer-gui /home/mfallon/logs/hyq/2015-07-10-trot/dataset_marco6_2015-07-10-13-26-55.lcmlog -p";
+    host = "localhost";
+}
+
+cmd "log_velodyne" {
+    exec = "lcm-logplayer-gui /home/mfallon/logs/hyq/velodyne/final_bag_2015-07-31-18-16-29.lcmlog -p";
+    host = "localhost";
+}
+
+cmd "viewer" {
+    exec = "pronto-viewer -c hyq.cfg";
+    host = "localhost";
+}
+
+
+cmd "bot-spy" {
+    exec = "bot-spy";
+    host = "localhost";
+}
+
+
+group "02.ros" {
+
+    cmd "roscore" {
+        exec = "roscore";
+        host = "localhost";
+    }
+    cmd "ros2lcm" {
+        exec = "rosrun  pronto_translators ros2lcm_hyq ";
+        host = "localhost";
+    }
+}
+
+
+script "0.full" {
+    start group "00.params_and_model_pub";
+    wait ms 1000;
+    start group "01.state_est";
+    start cmd "viewer";
+}
+
+script "1.from_logfile" {
+    start group "00.params_and_model_pub";
+    wait ms 1000;
+    start cmd "state-sync";
+    start group "01.state_mit_from_logfile";
+    start cmd "viewer";
+}
+
