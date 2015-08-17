@@ -31,6 +31,7 @@
 #define PARAM_POINT_SIZE "Point Size"
 #define PARAM_Z_MAX "Z max"
 #define PARAM_Z_MIN "Z min"
+#define PARAM_ALPHA "Alpha"
 
 namespace octomap {
 
@@ -813,6 +814,7 @@ static void on_param_widget_changed(BotGtkParamWidget *pw, const char *name, voi
 
   self->octd->enableFreespace(bot_gtk_param_widget_get_bool(self->pw, PARAM_SHOW_FREE));
   self->octd->enableOcTreeCells(bot_gtk_param_widget_get_bool(self->pw, PARAM_SHOW_OCC));
+  self->octd->setAlphaOccupied(bot_gtk_param_widget_get_double(self->pw, PARAM_ALPHA));
 //  self->octd->enableOcTree(bot_gtk_param_widget_get_bool(self->pw, PARAM_SHOW_GRID));
 
   if (self->ocTree != NULL && (strcmp(name, PARAM_COLOR_MODE_Z_MIN_Z) == 0 || strcmp(name, PARAM_COLOR_MODE_Z_MAX_Z)
@@ -934,6 +936,7 @@ BotRenderer *renderer_octomap_new(BotViewer *viewer, int render_priority, lcm_t 
   bot_gtk_param_widget_add_booleans(self->pw, BOT_GTK_PARAM_WIDGET_CHECKBOX, PARAM_SHOW_OCC, 0, NULL);
   bot_gtk_param_widget_add_booleans(self->pw, BOT_GTK_PARAM_WIDGET_CHECKBOX, PARAM_SHOW_FREE, 0, NULL);
 //  bot_gtk_param_widget_add_booleans(self->pw, BOT_GTK_PARAM_WIDGET_CHECKBOX, PARAM_SHOW_GRID, 0, NULL);
+  bot_gtk_param_widget_add_double(self->pw, PARAM_ALPHA, BOT_GTK_PARAM_WIDGET_SLIDER, 0, 1, .01, self->octd->m_alphaOccupied);
 
   bot_gtk_param_widget_add_int(self->pw, PARAM_TREE_DEPTH, BOT_GTK_PARAM_WIDGET_SPINBOX, 1, 16, 1, 16);
 
