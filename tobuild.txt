@@ -7,5 +7,5 @@ pronto
 
 # The following is optional:
 #signal-scope is a tool for plotting (LCM) signals
-signal-scope/external
+signal-scope/externals
 signal-scope
