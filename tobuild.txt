@@ -9,3 +9,4 @@ pronto
 #signal-scope is a tool for plotting (LCM) signals
 signal-scope/externals
 signal-scope
+ICPCUDA-app
