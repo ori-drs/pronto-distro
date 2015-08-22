@@ -1,0 +1,11 @@
+package kinect;
+
+// Used to provide command control to Kintinuous process
+
+struct map_command_t
+{
+    int64_t  timestamp;
+    int16_t  command;
+    const int16_t START = 0;
+    const int16_t FINISH = 1;
+}
