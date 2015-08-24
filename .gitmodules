@@ -10,3 +10,6 @@
 [submodule "signal-scope"]
 	path = signal-scope
 	url = https://github.com/mitdrc/signal-scope
+[submodule "ICPCUDA-pod"]
+	path = ICPCUDA-pod
+	url = git@github.com:ipab-slmc/ICPCUDA-pod.git

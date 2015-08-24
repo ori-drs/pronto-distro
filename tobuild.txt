@@ -9,3 +9,9 @@ pronto
 #signal-scope is a tool for plotting (LCM) signals
 signal-scope/externals
 signal-scope
+
+# optional for kinect ICPCUDA:
+# note: kinect is a fork of the official kinect driver for now
+#kinect
+#ICPCUDA-app
+
