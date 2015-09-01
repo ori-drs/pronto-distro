@@ -1,0 +1,44 @@
+group "01.state_est" {
+    cmd "pserver" {
+        exec = "bot-param-server kinect_imu.cfg";
+        host = "localhost";
+    }
+    cmd "fusion" {
+        exec = "se-fusion";
+        host = "localhost";
+    }
+    cmd "icpcuda" {
+        exec = "se-icpcuda -r";
+        host = "localhost";
+    }
+}
+
+group "02.logs" {
+    cmd "log_terrain" {
+        exec = "lcm-logplayer-gui ${PRONTO_BASE}/build/data/kinect/2015-08-22-openni/lcmlog-2015-08-22.00 -p";
+        host = "localhost";
+    }
+
+}
+
+
+
+cmd "viewer" {
+    exec = "pronto-viewer -c kinect_imu.cfg";
+    host = "localhost";
+}
+cmd "glview" {
+    exec = "kinect-glview";
+    host = "localhost";
+}
+
+cmd "signal-scope" {
+    exec = "signal-scope";
+    host = "localhost";
+}
+
+
+cmd "bot-spy" {
+    exec = "bot-spy";
+    host = "localhost";
+}
