@@ -90,27 +90,22 @@ Running Test Examples
 
 `Running pronto <https://www.youtube.com/watch?v=OWrzUIH3kUA>`_
 
-Some test logs and maps can be downloaded from. Place 
-octomap.bt_blurred in the build/data/ directory. 
-
+Some test logs and maps can be downloaded from the following
+location. (Atlas Version 5 Logs are preferred)
 
 ::
 
   http://homepages.inf.ed.ac.uk/mfallon2/share/pronto_logs/
 
-To process a log run these processes:
+To process a log run this process manager:
 
 ::
 
-  se-fusion -U atlas_v3/model_LN_RN.urdf -P drc_robot_02_mit.cfg
-  pronto-viewer
-  lcm-logplayer-gui typical-lcmlog-2014-04-21-15-13-robot-part
+  bot-procman-sheriff -l drc_robot.pmd
 
-You can view the octomap that's being localized against using octomap-server:
+Run the script called 'full' which launches all processes including
+the estimator. Then run the logplayer tool to play the log-terrain log.
 
-::
-
-  octomap-server octomap.bt
 
 Some notes:
 
@@ -119,20 +114,30 @@ Some notes:
 * pronto-viewer is a GUI showing the sensor data and 
   the position of the robot.
 * Make sure that POSE_BODY and STATE_ESTIMATOR_STATE are disabled 
-  (they were the position generated during the run)
+  (they were the position generated during the actual experiment)
 * bot-spy is a tool for inspecting the messages.
-* NEW 2015: Switch atlas_v3/atlas_v4/atlas_v5 for different Atlas version numbers
 
+
+Laser localization with Gaussian Particle Filter
+================================================
+
+In the above the Laser localization module is not running.
+You can view the octomap that's being localized against using octomap-server:
+
+::
+
+  octomap-server octomap.bt
 
 There are two other logs that work in the same way:
 
 * longstp-lcmlog-2014-04-21-16-12-robot-part
 * blocks3-lcmlog-2014-04-21-18-40-robot-part. TODO: I need a different map for this log.
+* NEW 2015: Switch atlas_v3/atlas_v4/atlas_v5 for different Atlas version numbers
 
 Options
 -------
 
-All options are read from the cfg file located in pronto-distro-config. 
+All options are read from the cfg file located in pronto-distro slash config. 
 
 * By default, this demos initalizes using vicon data in the log via "init_sensors"
 * The Gaussian Particle Filter is disabled by removing it from "active_sensors".
