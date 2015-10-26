@@ -13,13 +13,8 @@ group "00.params_and_model_pub" {
 
 group "01.state_mit" {
 
-    cmd "joints2frames" {
-        exec = "joints2frames";
-        host = "localhost";
-    }
-
     cmd "state-sync" {
-        exec = "state-sync -a5";
+        exec = "se-state-sync-simple";
         host = "localhost";
     }
     cmd "fusion" {
@@ -28,6 +23,10 @@ group "01.state_mit" {
     }
     cmd "yaw-lock" {
         exec = "se-yaw-lock -yd";
+        host = "localhost";
+    }
+    cmd "republish-atlas-state" {
+        exec = "se-republish-atlas-state-as-core";
         host = "localhost";
     }
 }

@@ -205,14 +205,15 @@ On ROS Indigo the follow contents should be added to bashrc:
 
   export PATH=/home/drc/pronto-distro/build/bin:$PATH
   source /opt/ros/indigo/setup.bash
-  export PKG_CONFIG_PATH=<insert-path-to>/pronto-distro/build/lib/pkgconfig/:<insert-path-to>/pronto-distro/build/lib64/pkgconfig/:$PKG_CONFIG_PATH
-  export LD_LIBRARY_PATH=<insert-path-to>/pronto-distro/build/lib/:<insert-path-to>/pronto-distro/build/lib64/:$LD_LIBRARY_PATH
+  export PKG_CONFIG_PATH=<your-path-to>/pronto-distro/build/lib/pkgconfig/:<insert-path-to>/pronto-distro/build/lib64/pkgconfig/:$PKG_CONFIG_PATH
+  export LD_LIBRARY_PATH=<your-path-to>/pronto-distro/build/lib/:<insert-path-to>/pronto-distro/build/lib64/:$LD_LIBRARY_PATH
+  export DRC_BASE=<your-path-to>/pronto-distro
 
 This is a super set, not all of these are required. The package can then be compiled using catkin:
 
 ::
 
-  cd <insert-path-to>/pronto-lcm-ros-translators
+  cd <insert-path-to>/pronto-distro/pronto-lcm-ros-translators
   catkin_make
   source <insert-path-to>/pronto-distro/pronto-lcm-ros-translators/devel/setup.bash
 
