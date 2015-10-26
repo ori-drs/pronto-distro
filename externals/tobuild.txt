@@ -12,6 +12,7 @@ octomap-drc
 
 vicon
 common_utils
-microstrain_comm
+#microstrain_comm
+microstrain
 
 frsm

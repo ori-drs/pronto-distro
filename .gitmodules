@@ -1,15 +1,18 @@
 [submodule "pronto"]
 	path = pronto
-	url = https://github.com/mitdrc/pronto.git
+	url = https://github.com/openhumanoids/pronto.git
 [submodule "kinematics-utils"]
 	path = kinematics-utils
-	url = https://github.com/mitdrc/kinematics-utils.git
+	url = https://github.com/ipab-slmc/kinematics-utils.git
 [submodule "externals/frsm"]
 	path = externals/frsm
-	url = https://github.com/mitdrc/frsm
+	url = https://github.com/openhumanoids/frsm
 [submodule "signal-scope"]
 	path = signal-scope
-	url = https://github.com/mitdrc/signal-scope
+	url = https://github.com/openhumanoids/signal-scope
 [submodule "ICPCUDA-pod"]
 	path = ICPCUDA-pod
 	url = https://github.com/ipab-slmc/ICPCUDA-pod.git
+[submodule "externals/microstrain"]
+	path = externals/microstrain
+	url = https://github.com/openhumanoids/microstrain.git
