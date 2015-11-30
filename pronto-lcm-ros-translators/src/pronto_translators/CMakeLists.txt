@@ -194,3 +194,7 @@ pods_use_pkg_config_packages(ros2lcm_thormang lcm lcmtypes_pronto-lcmtypes bot2-
 add_executable(ros2lcm_hyq src/ros2lcm_hyq.cpp)
 target_link_libraries(ros2lcm_hyq ${catkin_LIBRARIES})
 pods_use_pkg_config_packages(ros2lcm_hyq lcm lcmtypes_pronto-lcmtypes bot2-core eigen3) 
+
+add_executable(ros2lcm_walkman src/ros2lcm_walkman.cpp)
+target_link_libraries(ros2lcm_walkman ${catkin_LIBRARIES})
+pods_use_pkg_config_packages(ros2lcm_walkman lcm lcmtypes_pronto-lcmtypes bot2-core eigen3) 
