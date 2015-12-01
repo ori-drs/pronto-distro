@@ -1,0 +1,190 @@
+{
+  "modelName" : "bigman",
+  "urdfConfig": {
+    "default": "./urdf/bigman_real.urdf",
+    "robotState": "./urdf/bigman_real.urdf",
+    "ik":         "./urdf/bigman_real.urdf",
+    "chull":      "./urdf/bigman_real.urdf",
+    "playback":   "./urdf/bigman_real.urdf",
+    "teleop":     "./urdf/bigman_real.urdf"
+  },
+
+  "teleopJointGroups" : [
+      { "name" : "Base",
+        "joints" : [
+          "base_x",
+          "base_y",
+          "base_z",
+          "base_roll",
+          "base_pitch",
+          "base_yaw"
+          ],
+        "labels" : ["x", "y", "z", "roll", "pitch", "yaw"]
+      },
+
+      { "name" : "Back",
+        "joints" : [
+          "WaistLat",
+          "WaistSag",
+          "WaistYaw"
+          ],
+        "labels" : ["yaw (x)", "pitch (y)", "roll (z)"]
+      },
+
+      { "name" : "Left Arm",
+        "joints" : [
+          "LShSag",
+          "LShLat",
+          "LShYaw",
+          "LElbj",
+          "LForearmPlate",
+          "LWrj1",
+          "LWrj2"
+          ],
+        "labels" : ["SPitch", "SRoll", "SYaw", "Elbow", "Forearm", "WRoll", "WPitch"]
+      },
+
+      { "name" : "Right Arm",
+        "joints" : [
+          "RShSag",
+          "RShLat",
+          "RShYaw",
+          "RElbj",
+          "RForearmPlate",
+          "RWrj1",
+          "RWrj2"
+          ],
+        "labels" : ["SPitch", "SRoll", "SYaw", "Elbow", "Forearm", "WRoll", "WPitch"]
+      },
+
+      { "name" : "Neck",
+        "joints" : [
+          "NeckYawj",
+          "NeckPitchj"
+          ],
+        "labels" : ["Lower Pitch", "Yaw"]
+      },
+
+      { "name" : "Left Leg",
+        "joints" : [
+          "LHipLat",
+          "LHipYaw",
+          "LHipSag",
+          "LKneeSag",
+          "LAnkSag",
+          "LAnkLat"
+          ],
+        "labels" : ["Yaw", "Roll", "Pitch", "Kneww", "APit", "ARoll"]
+      },
+
+      { "name" : "Right Leg",
+        "joints" : [
+          "RHipLat",
+          "RHipYaw",
+          "RHipSag",
+          "RKneeSag",
+          "RAnkSag",
+          "RAnkLat"
+          ],
+        "labels" : ["Yaw", "Roll", "Pitch", "Knee", "APit", "ARoll"]
+      }
+
+    ],
+
+  "drakeJointNames": [
+    "base_x",
+    "base_y",
+    "base_z",
+    "base_roll",
+    "base_pitch",
+    "base_yaw",
+          "WaistLat",
+          "WaistSag",
+          "WaistYaw",
+          "NeckYawj",
+          "NeckPitchj",
+          "RShSag",
+          "RShLat",
+          "RShYaw",
+          "RElbj",
+          "RForearmPlate",
+          "RWrj1",
+          "RWrj2",
+          "LShSag",
+          "LShLat",
+          "LShYaw",
+          "LElbj",
+          "LForearmPlate",
+          "LWrj1",
+          "LWrj2",
+          "LHipLat",
+          "LHipYaw",
+          "LHipSag",
+          "LKneeSag",
+          "LAnkSag",
+          "LAnkLat",
+          "RHipLat",
+          "RHipYaw",
+          "RHipSag",
+          "RKneeSag",
+          "RAnkSag",
+          "RAnkLat"
+  ],
+  "robotStateJointNames": [
+          "WaistLat",
+          "WaistSag",
+          "WaistYaw",
+          "NeckYawj",
+          "NeckPitchj",
+          "RShSag",
+          "RShLat",
+          "RShYaw",
+          "RElbj",
+          "RForearmPlate",
+          "RWrj1",
+          "RWrj2",
+          "LShSag",
+          "LShLat",
+          "LShYaw",
+          "LElbj",
+          "LForearmPlate",
+          "LWrj1",
+          "LWrj2",
+          "LHipLat",
+          "LHipYaw",
+          "LHipSag",
+          "LKneeSag",
+          "LAnkSag",
+          "LAnkLat",
+          "RHipLat",
+          "RHipYaw",
+          "RHipSag",
+          "RKneeSag",
+          "RAnkSag",
+          "RAnkLat"
+  ],
+  "fixedPointFile" : "../../control/matlab/data/bigman_urdf/bigman_fp.mat",
+  "leftFootMeshFiles" : ["model/meshes/legs/foot.obj"],
+  "rightFootMeshFiles" : ["model/meshes/legs/foot.obj"],
+  "postureDatabaseFile" : "./stored_poses.json",
+  "capabilityMapFile": "../../control/matlab/data/val_description/capabilityMap.mat",
+  "mirrorJointSignFlips" : ["WaistRotator"],
+
+  "pelvisLink" : "pelvis",
+  "headLink" : "NeckPitch",
+  "leftFootLink" : "LFoot",
+  "rightFootLink" : "RFoot",
+  "elbowLinks" : ["leftElbowPitchLink", "rightElbowPitchLink"],
+  "kneeJoints" : ["LKneeSag", "RKneeSag"],
+  "kneeJointLimits" : [0.6,1.9],
+  "baseZJointLimits" : [0.955, 1.14],
+
+  "drivingThrottleJoint" : "LAnkSag",
+  "drivingSteeringJoint" : "LForearmPlate",
+
+  "handCombinations": [
+  ],
+
+  "userConfig" : []
+
+}
