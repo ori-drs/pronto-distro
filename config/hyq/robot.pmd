@@ -1,11 +1,11 @@
 group "00.params_and_model_pub" {
     cmd "pserver" {
-        exec = "bot-param-server hyq.cfg";
+        exec = "bot-param-server $DRC_BASE/software/config/hyq/robot.cfg";
         host = "localhost";
     }
 
     cmd "model_LR_RR" {
-        exec = "robot_model_publisher ../models/mit_gazebo_models/hyq_description/robots/hyq.urdf";
+        exec = "robot_model_publisher $DRC_BASE/software/models/hyq_description/robots/hyq.urdf";
         host = "localhost";
     }
 
@@ -69,7 +69,7 @@ group "02.logs" {
 
 
 cmd "viewer" {
-    exec = "pronto-viewer -c hyq.cfg";
+    exec = "pronto-viewer -c hyq/robot.cfg";
     host = "localhost";
 }
 

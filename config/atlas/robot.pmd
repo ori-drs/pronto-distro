@@ -1,11 +1,11 @@
 group "00.params_and_model_pub" {
     cmd "pserver" {
-        exec = "bot-param-server drc_robot.cfg";
+        exec = "bot-param-server $DRC_BASE/software/config/atlas/robot.cfg";
         host = "localhost";
     }
 
     cmd "model_LR_RR" {
-        exec = "robot_model_publisher ../models/atlas_v5/model_LR_RR.urdf";
+        exec = "robot_model_publisher $DRC_BASE/software/models/atlas_v5/model_LR_RR.urdf";
         host = "localhost";
     }
 
@@ -45,7 +45,7 @@ cmd "log_terrain" {
 }
 
 cmd "viewer" {
-    exec = "pronto-viewer -c drc_robot.cfg";
+    exec = "pronto-viewer -c atlas/robot.cfg";
     host = "localhost";
 }
 
