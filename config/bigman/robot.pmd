@@ -1,0 +1,69 @@
+group "0.params_and_model_pub" {
+    cmd "pserver" {
+        exec = "bot-param-server $DRC_BASE/software/config/bigman/robot.cfg";
+        host = "localhost";
+    }
+    cmd "model" {
+        exec = "robot_model_publisher   $DRC_BASE/software/models/bigman_urdf/urdf/bigman_real.urdf";
+        host = "localhost";
+    }
+
+}
+
+group "1.sensing" {
+    cmd "state-sync-simple" {
+        exec = "se-state-sync-simple";
+        host = "localhost";
+    }
+
+    cmd "se-fusion" {
+        exec = "se-fusion";
+        host = "localhost";
+    }
+
+    cmd "se-bigman-signal-mods" {
+        exec = "se-bigman-signal-mods";
+        host = "localhost";
+    }
+
+}
+
+
+group "2.vis" {
+    cmd "pronto-viewer" {
+        exec = "pronto-viewer -c bigman/robot.cfg";
+        host = "localhost";
+    }
+}
+
+group "3.signal-scope" {
+    cmd "signal-scope-ft" {
+        exec = "signal-scope $DRC_BASE/software/config/signal_scope/bigman/imu_force_torque.py";
+        host = "localhost";
+    }
+    cmd "signal-scope-joints" {
+        exec = "signal-scope $DRC_BASE/software/config/signal_scope/bigman/leg_joints.py";
+        host = "localhost";
+    }
+}
+
+cmd "log" {
+    exec = "lcm-logplayer-gui ${HOME}/logs/walkman-pronto/walkman_test_new -p";
+    host = "localhost";
+}
+cmd "spy" {
+    exec = "bot-spy";
+    host = "localhost";
+}
+
+
+script "start_all" {
+    start group "0.params_and_model_pub";
+    start group "1.sensing";
+    start group "2.vis";
+    start group "3.signal-scope";
+    start cmd "log";
+    start cmd "spy";
+}
+
+
