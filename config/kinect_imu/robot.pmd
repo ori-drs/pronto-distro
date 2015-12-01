@@ -1,6 +1,6 @@
 group "01.state_est" {
     cmd "pserver" {
-        exec = "bot-param-server kinect_imu.cfg";
+        exec = "bot-param-server $DRC_BASE/software/config/kinect_imu/robot.cfg";
         host = "localhost";
     }
     cmd "fusion" {
@@ -24,7 +24,7 @@ group "02.logs" {
 
 
 cmd "viewer" {
-    exec = "pronto-viewer -c kinect_imu.cfg";
+    exec = "pronto-viewer -c kinect_imu/robot.cfg";
     host = "localhost";
 }
 cmd "glview" {
