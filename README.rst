@@ -80,8 +80,6 @@ systems such as Pronto. It was developed for the MIT DRC by Pat Marion.
 Launch it by pointing it to a python config file in config/signal_scope. 
 There are many examples of using it in signal_scope/examples.
 
-![Signal Scope](/signal_scope.png)
-
 Running Test Examples
 =====================
 

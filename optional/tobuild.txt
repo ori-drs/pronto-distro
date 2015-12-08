@@ -1,17 +1,6 @@
 # list of subdirectories to build, one one each line.  Empty lines
 # and lines starting with '#' are ignored
 
-lcm-pod
-Eigen_pod
-libbot
-
-occ-map
-octomap-pod
-
-vicon
-common_utils
-microstrain
-
-frsm
-
-kinematics-utils
+# optional for kinect ICPCUDA:
+kinect
+ICPCUDA-pod

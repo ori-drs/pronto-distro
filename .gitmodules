@@ -1,18 +1,43 @@
 [submodule "pronto"]
 	path = pronto
 	url = https://github.com/openhumanoids/pronto.git
-[submodule "kinematics-utils"]
-	path = kinematics-utils
-	url = https://github.com/ipab-slmc/kinematics-utils.git
 [submodule "externals/frsm"]
 	path = externals/frsm
 	url = https://github.com/openhumanoids/frsm
 [submodule "signal-scope"]
 	path = signal-scope
 	url = https://github.com/openhumanoids/signal-scope
-[submodule "ICPCUDA-pod"]
-	path = ICPCUDA-pod
-	url = https://github.com/ipab-slmc/ICPCUDA-pod.git
 [submodule "externals/microstrain"]
 	path = externals/microstrain
 	url = https://github.com/openhumanoids/microstrain.git
+[submodule "externals/octomap-pod"]
+	path = externals/octomap-pod
+	url = https://github.com/openhumanoids/octomap-pod.git
+[submodule "externals/common_utils"]
+	path = externals/common_utils
+	url = https://github.com/openhumanoids/common_utils.git
+	ignore = untracked
+[submodule "externals/occ-map"]
+	path = externals/occ-map
+	url = https://github.com/openhumanoids/occ-map.git
+[submodule "externals/libbot"]
+	path = externals/libbot
+	url = https://github.com/openhumanoids/libbot.git
+[submodule "externals/vicon"]
+	path = externals/vicon
+	url = https://github.com/openhumanoids/vicon.git
+[submodule "externals/Eigen_pod"]
+	path = externals/Eigen_pod
+	url = https://github.com/RobotLocomotion/eigen-pod.git
+[submodule "kinect"]
+	path = optional/kinect
+	url = https://github.com/openhumanoids/kinect.git
+[submodule "externals/lcm-pod"]
+	path = externals/lcm-pod
+	url = https://github.com/ipab-slmc/lcm-pod.git
+[submodule "optional/ICPCUDA-pod"]
+	path = optional/ICPCUDA-pod
+	url = https://github.com/ipab-slmc/ICPCUDA-pod.git
+[submodule "externals/kinematics-utils"]
+	path = externals/kinematics-utils
+	url = https://github.com/ipab-slmc/kinematics-utils.git
