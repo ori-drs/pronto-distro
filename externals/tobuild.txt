@@ -8,7 +8,7 @@ libbot-drc
 #opencv-drc
 
 occ-map
-octomap-drc
+octomap-pod
 
 vicon
 common_utils
