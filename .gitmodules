@@ -35,3 +35,6 @@
 [submodule "externals/Eigen_pod"]
 	path = externals/Eigen_pod
 	url = https://github.com/RobotLocomotion/eigen-pod.git
+[submodule "kinect"]
+	path = kinect
+	url = https://github.com/openhumanoids/kinect.git
