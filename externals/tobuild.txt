@@ -14,4 +14,4 @@ microstrain
 
 frsm
 
-kinematics-tuils
+kinematics-utils
