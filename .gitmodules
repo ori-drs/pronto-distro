@@ -38,3 +38,6 @@
 [submodule "optional/ICPCUDA-pod"]
 	path = optional/ICPCUDA-pod
 	url = https://github.com/ipab-slmc/ICPCUDA-pod.git
+[submodule "externals/kinematics-utils"]
+	path = externals/kinematics-utils
+	url = https://github.com/ipab-slmc/kinematics-utils.git
