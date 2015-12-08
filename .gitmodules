@@ -16,3 +16,6 @@
 [submodule "externals/microstrain"]
 	path = externals/microstrain
 	url = https://github.com/openhumanoids/microstrain.git
+[submodule "externals/octomap-pod"]
+	path = externals/octomap-pod
+	url = https://github.com/openhumanoids/octomap-pod.git
