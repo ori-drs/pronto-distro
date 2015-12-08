@@ -23,3 +23,9 @@
 	path = externals/common_utils
 	url = https://github.com/openhumanoids/common_utils.git
 	ignore = untracked
+[submodule "externals/occ-map"]
+	path = externals/occ-map
+	url = https://github.com/openhumanoids/occ-map.git
+[submodule "externals/libbot"]
+	path = externals/libbot
+	url = https://github.com/openhumanoids/libbot.git

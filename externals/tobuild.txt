@@ -3,16 +3,13 @@
 
 lcm-pod
 Eigen_pod
-libbot-drc
-
-#opencv-drc
+libbot
 
 occ-map
 octomap-pod
 
 vicon
 common_utils
-#microstrain_comm
 microstrain
 
 frsm
