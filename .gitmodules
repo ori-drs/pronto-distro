@@ -1,9 +1,6 @@
 [submodule "pronto"]
 	path = pronto
 	url = https://github.com/openhumanoids/pronto.git
-[submodule "kinematics-utils"]
-	path = externals/kinematics-utils
-	url = https://github.com/ipab-slmc/kinematics-utils.git
 [submodule "externals/frsm"]
 	path = externals/frsm
 	url = https://github.com/openhumanoids/frsm
