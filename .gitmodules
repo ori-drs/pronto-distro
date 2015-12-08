@@ -22,3 +22,4 @@
 [submodule "externals/common_utils"]
 	path = externals/common_utils
 	url = https://github.com/openhumanoids/common_utils.git
+	ignore = untracked
