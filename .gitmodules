@@ -11,7 +11,7 @@
 	path = signal-scope
 	url = https://github.com/openhumanoids/signal-scope
 [submodule "ICPCUDA-pod"]
-	path = ICPCUDA-pod
+	path = optional/ICPCUDA-pod
 	url = https://github.com/ipab-slmc/ICPCUDA-pod.git
 [submodule "externals/microstrain"]
 	path = externals/microstrain
@@ -36,5 +36,5 @@
 	path = externals/Eigen_pod
 	url = https://github.com/RobotLocomotion/eigen-pod.git
 [submodule "kinect"]
-	path = kinect
+	path = optional/kinect
 	url = https://github.com/openhumanoids/kinect.git
