@@ -38,3 +38,6 @@
 [submodule "externals/lcm-pod"]
 	path = externals/lcm-pod
 	url = https://github.com/ipab-slmc/lcm-pod.git
+[submodule "optional/ICPCUDA-pod"]
+	path = optional/ICPCUDA-pod
+	url = https://github.com/ipab-slmc/ICPCUDA-pod.git
