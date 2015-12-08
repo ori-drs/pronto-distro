@@ -38,3 +38,6 @@
 [submodule "kinect"]
 	path = optional/kinect
 	url = https://github.com/openhumanoids/kinect.git
+[submodule "optional/ICPCUDA-pod"]
+	path = optional/ICPCUDA-pod
+	url = https://github.com/ipab-slmc/ICPCUDA-pod
