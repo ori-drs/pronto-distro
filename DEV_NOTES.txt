@@ -1,5 +1,0 @@
-- enabled the laser corrections from a second estimator to leak into the first via an abuse of laser_gpf_out_of_process GPF_MEASUREMENT
-- a bunch of new code for handling the controller_status_t in laser_gpf - this should be removed from here and settled by an external process publishing
-flags
-- also this new mode doesnt allow me to currently override and enable the laser module when standing in MIT control
-
