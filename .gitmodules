@@ -29,3 +29,9 @@
 [submodule "externals/libbot"]
 	path = externals/libbot
 	url = https://github.com/openhumanoids/libbot.git
+[submodule "externals/vicon"]
+	path = externals/vicon
+	url = https://github.com/openhumanoids/vicon.git
+[submodule "externals/Eigen_pod"]
+	path = externals/Eigen_pod
+	url = https://github.com/RobotLocomotion/eigen-pod.git
