@@ -21,10 +21,14 @@ group "1.sensing" {
         host = "localhost";
     }
 
-    cmd "se-bigman-signal-mods" {
-        exec = "se-bigman-signal-mods";
-        host = "localhost";
-    }
+    # cmd "se-bigman-signal-mods" {
+    #     exec = "se-bigman-signal-mods";
+    #     host = "localhost";
+    # }
+    # cmd "bigman-signal-mods" {
+    #     exec = "python /home/yuchango/Documents/test_py.py";
+    #     host = "localhost";
+    # }
 
 }
 
@@ -47,22 +51,27 @@ group "3.signal-scope" {
     }
 }
 
-cmd "log" {
-    exec = "lcm-logplayer-gui ${HOME}/logs/walkman-pronto/walkman_test_new -p";
-    host = "localhost";
-}
+# cmd "log" {
+#     exec = "lcm-logplayer-gui ${HOME}/logs/walkman-pronto/walkman_test_new -p";
+#     host = "localhost";
+# }
+
 cmd "spy" {
     exec = "bot-spy";
     host = "localhost";
 }
 
+cmd "logger" {
+    exec = "lcm-logger $DRC_BASE/sortware/build/data";
+    host = "localhost";
+}
 
 script "start_all" {
     start group "0.params_and_model_pub";
     start group "1.sensing";
     start group "2.vis";
-    start group "3.signal-scope";
-    start cmd "log";
+    # start group "3.signal-scope";
+    # start cmd "log";
     start cmd "spy";
 }
 
