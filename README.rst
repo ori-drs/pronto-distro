@@ -2,6 +2,10 @@
 Pronto State Estimator
 ======================
 
+.. image:: https://travis-ci.org/ipab-slmc/pronto-distro.svg?branch=master
+    :target: https://travis-ci.org/ipab-slmc/pronto-distro
+
+
 .. contents:: Table of Contents
 
 Introduction
