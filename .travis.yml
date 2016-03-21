@@ -9,6 +9,6 @@ script:
  - make -v
  - gcc -v
  - g++ -v
- - cmake -v
+ - cmake --version
  - VERBOSE=1 make
 
