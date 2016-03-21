@@ -3,6 +3,7 @@
 
 lcm-pod
 Eigen_pod
+bot_core_lcmtypes
 libbot
 
 occ-map

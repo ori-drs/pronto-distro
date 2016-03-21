@@ -41,3 +41,6 @@
 [submodule "externals/kinematics-utils"]
 	path = externals/kinematics-utils
 	url = https://github.com/ipab-slmc/kinematics-utils.git
+[submodule "externals/bot_core_lcmtypes"]
+	path = externals/bot_core_lcmtypes
+	url = https://github.com/iamwolf/bot_core_lcmtypes.git
