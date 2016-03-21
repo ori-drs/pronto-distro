@@ -1,0 +1,11 @@
+dist: trusty
+sudo: required
+language: cpp
+
+install:
+ - sudo apt-get install -y -qq git build-essential libglib2.0-dev openjdk-6-jdk python-dev cmake gtk-doc-tools libgtkmm-2.4-dev freeglut3-dev libjpeg-dev libtinyxml-dev libboost-thread-dev libgtk2.0-dev python-gtk2 mesa-common-dev libgl1-mesa-dev libglu1-mesa-dev libqwt-dev
+
+script:
+ - cd $TRAVIS_BUILD_DIR
+ - git submodule update --init --recursive
+ - make -j4
