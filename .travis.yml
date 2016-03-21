@@ -10,5 +10,5 @@ script:
  - gcc -v
  - g++ -v
  - cmake --version
- - VERBOSE=1 make
+ - VERBOSE=1 make -j1
 
