@@ -240,11 +240,6 @@ I have provided a skeleton translator which I assume you will need
 to modify to use in your system. Get in touch if you would like some help in doing this. These are the required messages:
 (to be confirmed if this is exhausive)
 
-BDI's estimate of the Atlas position:
-
-* Source: BDI driver  (pos_est, filtered_imu fields)
-* Publish: POSE_BDI (bot_core_pose_t)
-
 The IMU measurements:
 
 * Source: BDI driver (the raw_imu field)
