@@ -12,12 +12,13 @@ Introduction
 ============
 
 Pronto is an efficient EKF state estimator for inertial and sensory
-motion estimation.
+motion estimation. It provided the state estimate that was used by MIT DRC team in the DARPA Robotics Challenge to estimate the position and motion of the Boston Dynamics Atlas robot.
 
-Pronto has been used to localize a Fixed-wing micro aerial vehicles
-and quadrotors aggressively flying indoors and outdoors. It has
-also been used to provide a 333Hz motion estimate for the Boston Dynamics
-Atlas humanoid. 
+**Performance:** With inertial and kinematic input (i.e. no LIDAR input) the drift rate of the 
+estimator is **2cm per 10 steps travelled**. We estimate this to be 10 times better 
+than the estimator provided by Boston Dynamics. With the closed-loop LIDAR module, drift is removed entirely.
+
+It has since been adapted to estimate the motion of the NASA Valkyrie robot at University of Edinburgh - just as reliably
 
 Pronto has been used with a variety of inputs 
 from sensors such as IMUs (Microstrain and Kearfott), laser ranger finders, 
@@ -79,7 +80,7 @@ The compile time is about 4 mins.
 Signal Scope
 ------------
 Signal Scope is a lightweight signal plotting tool. Its invaluable for debugging 
-systems such as Pronto. It was developed for the MIT DRC by Pat Marion.
+systems such as Pronto. It was developed for the MIT DRC team by Pat Marion.
 
 Launch it by pointing it to a python config file in config/signal_scope. 
 There are many examples of using it in signal_scope/examples.
@@ -87,26 +88,34 @@ There are many examples of using it in signal_scope/examples.
 Running Test Examples
 =====================
 
-.. image:: http://img.youtube.com/vi/OWrzUIH3kUA/0.jpg
-   :target: https://www.youtube.com/watch?v=OWrzUIH3kUA
-
-`Running pronto <https://www.youtube.com/watch?v=OWrzUIH3kUA>`_
-
-Some test logs and maps can be downloaded from the following
-location. (Atlas Version 5 Logs are preferred)
+Test logs for both BDI Atlas (v5) and NASA Valkyrie can be downloaded from the following
+location:
 
 ::
 
-  http://homepages.inf.ed.ac.uk/mfallon2/share/pronto_logs/
+  http://homepages.inf.ed.ac.uk/mfallon2/share/pronto_test_data/
 
-To process a log run this process manager:
+
+NASA Valkyrie Logs
+------------------
 
 ::
 
-  bot-procman-sheriff -l drc_robot.pmd
+  se-fusion -P val/robot.cfg -U val_description/urdf/valkyrie_sim.urdf  -L raluca-turning-180deg-snippet.lcmlog
+  robot_model_publisher val_description/urdf/valkyrie_sim.urdf 
+  se-state-sync-simple
+  pronto-viewer -val/robot.cfg
 
-Run the script called 'full' which launches all processes including
-the estimator. Then run the logplayer tool to play the log-terrain log.
+
+Boston Dynamics Atlas Logs
+--------------------------
+
+::
+
+  se-fusion -P atlas/robot.cfg -U atlas_v5/model_LR_RR.urdf  -L 20160315-walking.lcmlog
+  robot_model_publisher model_LR_RR.urdf
+  se-state-sync-simple
+  pronto-viewer -val/robot.cfg
 
 
 Some notes:
@@ -120,92 +129,29 @@ Some notes:
 * bot-spy is a tool for inspecting the messages.
 
 
-Laser localization with Gaussian Particle Filter
-================================================
-
-In the above the Laser localization module is not running.
-You can view the octomap that's being localized against using octomap-server:
-
-::
-
-  octomap-server octomap.bt
-
-There are two other logs that work in the same way:
-
-* longstp-lcmlog-2014-04-21-16-12-robot-part
-* blocks3-lcmlog-2014-04-21-18-40-robot-part. TODO: I need a different map for this log.
-* NEW 2015: Switch atlas_v3/atlas_v4/atlas_v5 for different Atlas version numbers
-
-Options
--------
-
-All options are read from the cfg file located in pronto-distro slash config. 
-
-* By default, this demos initalizes using vicon data in the log via "init_sensors"
-* The Gaussian Particle Filter is disabled by removing it from "active_sensors".
-* Its not necessary but, we would suggest adding the binary path to your system path:
-
-::
-
-  export PATH=<path-to-your-code>/pronto-distro/build/bin:$PATH
-
-
-Documentation
-=============
-
-Technical details about the estimator are to be completed. Please read the attached publications for details
-or get in touch for support.
-
-Humanoid Locomotion
--------------------
+Using with your own robot
+-------------------------
 
 Having tried out the test examples. How can you use Pronto with your robot?
-
-First of all, pronto can be used as an module within your system without any changes. It
-simply produces a better state estimator - enabling more rapid walking.
-
-Using the estimator with the Atlas Stepping Behaviour
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-**Performance:** With inertial and kinematic input (i.e. no LIDAR input) the drift rate of the 
-estimator is **2cm per 10 steps travelled**. We estimate this to be 10 times better 
-than the estimator provided by BDI. With the closed-loop LIDAR module, drift is removed entirely.
-
-More specifically, the estimator can walk the robot to the top of a tower of 
-cinder blocks, under BDI control - without stopping --- with the only input being
-the placement of footsteps. **Recently this was executed 8 times consecutively in a public demo.**
-
-As the estimator was primarily developed for use on Atlas, performance has been heavily tested and 
-is robust. The easiest use case is with BDI retaining lower body control. 
-To get started we suggest disabling the LIDAR module, for simplicity.
-
-We estimate the position of the robot with the Pronto position estimator while the BDI estimate
-is still used by their system.
-
-When a set of footsteps are placed near the feet of the Pronto position estimate, the relevant
-Pronto-to-BDI transform is used to transmit footsteps to the BDI stepping system. As the robot
-walks, only this Pronto-to-BDI transform is changed to ensure that the executed footsteps
-truely hit the locations we have chosen.
 
 **Getting Started:** To use the estimator on your robot, you simply need to provide
 the required inputs to our system:
 
-* ATLAS_STATE - contains the raw joint position, velocity information
-* ATLAS_IMU_BATCH - the raw IMU data
-* POSE_BDI - the position and orientation, as estimated by BDI
-* STATE_EST_READY - a simple trigger to say where to initialize the robot - usually the origin
+* IMU measurements of type ins_t.lcm (ROS: sensor_msgs/Imu)
+  * Also support the KVH 1750 IMU which is in the Atlas
+* Joint States of type joint_states_t.lcm (ROS: sensor_msgs/JointState)
+* Force Torque sensor of type six_axis_force_torque_array_t.lcm (ROS: geometry_msgs/WrenchStamped)
 
 Pronto will output: 
 
 * POSE_BODY - the position, orientation and velocity of the robot's pelvis
 
-Use this pose to render the robot in your system, and maintain the relative POSE_BDI-to-POSE_BODY estimate
-so as to transform footsteps to the correct positions for the stepping controller.
-
 Using the Estimator With ROS
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-We provide a LCM-to-ROS translation bridge to allow easy integration with a ROS-based system.
+I have provided a skeleton translator which I assume you will need
+to modify to use in your system. Get in touch if you would like some help in doing this.
+
 On ROS Indigo the follow contents should be added to bashrc: 
 
 ::
@@ -216,7 +162,7 @@ On ROS Indigo the follow contents should be added to bashrc:
   export LD_LIBRARY_PATH=<your-path-to>/pronto-distro/build/lib/:<insert-path-to>/pronto-distro/build/lib64/:$LD_LIBRARY_PATH
   export DRC_BASE=<your-path-to>/pronto-distro
 
-This is a super set, not all of these are required. The package can then be compiled using catkin:
+The package can then be compiled using catkin:
 
 ::
 
@@ -231,65 +177,16 @@ And then a translators can be run in each direction:
   rosrun pronto_translators ros2lcm
   rosrun pronto_translators lcm2ros
 
-You can test this:
-
-* Play back a ROS bag, traffic can be see with the bot-spy tool
-* Play back the logs mentioned above and some of the channels can be seen with rostopic
-
 Tested on Ubuntu 14.04 with ROS Indigo.
-
-Modifying the Translator for your system
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-I have provided a skeleton translator which I assume you will need
-to modify to use in your system. Get in touch if you would like some help in doing this. These are the required messages:
-(to be confirmed if this is exhausive)
-
-The IMU measurements:
-
-* Source: BDI driver (the raw_imu field)
-* Publish: ATLAS_IMU_BATCH (atlas_raw_imu_batch_t)
-
-BDI's joint angle velocities, positions and efforts. Also the FT sensors
-
-* Source: BDI driver (jfeed, foot_sensors, wrist_sensors)
-* Publish: ATLAS_STATE (atlas_state_t)
-* Wrist sensors not used
-
-Ancillary data message from BDI (e.g. pump rpm, air sump pressure)
-
-* Source: BDI driver
-* Publish: ATLAS_STATUS (10Hz is fine)
-* TODO: revamp this, as I only need the current_behavior field (to distinguish walking and standing)
-
-The Multisense Lidar Scan:
-
-* Source: Multisense driver
-* Publish: SCAN (bot_core_planar_lidar_t)
-
-Angle of the Multisense SL Laser:
-
-* Source: both spindleAngleStart and spindleAngleEnd in CRL's lidar header
-* Publish: PRE_SPINDLE_TO_POST_SPINDLE (bot_core_rigid_transform_t)
-
-Message to tell SE where in the world to start
-
-* Source: The user: I always use a point above the origin - (0,0,0.85)
-* Publish: MAV_STATE_EST_VIEWER_MEASUREMENT (mav_indexed_measurement_t)
-* Publish: STATE_EST_READY  (a timestamp)
-
-Simple timestamp messages - used to provide commands:
-
-* STATE_EST_RESTART
-* STATE_EST_START_NEW_MAP
-
 
 Using the estimator with a third party controller
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-At MIT we use Pronto as our 333Hz Drake controller in a high-rate control loop. Latency
+We have successfully used Pronto with 4 other bipeds (including NASA Valkyrie) and a quadruped. If you are interested in using the estimator with your own controller, please get in touch.
+
+At MIT and Edinburgh we use Pronto as our 333Hz Drake controller in a high-rate control loop. Latency
 and relability have allowed us to demonstrate challenging locomotion using the Atlas robot.
 
-If you are interested in using the estimator with your own controller, please get in touch.
 
 Micro Aerial Vehicles
 ---------------------
