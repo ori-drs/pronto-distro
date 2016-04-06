@@ -18,15 +18,13 @@ motion estimation. It provided the state estimate that was used by MIT DRC team 
 estimator is **2cm per 10 steps travelled**. We estimate this to be 10 times better 
 than the estimator provided by Boston Dynamics. With the closed-loop LIDAR module, drift is removed entirely.
 
-It has since been adapted to estimate the motion of the NASA Valkyrie robot at University of Edinburgh - just as reliably
+It has since been adapted to estimate the motion of the NASA Valkyrie robot at University of Edinburgh - just as reliably. As well as the source code we also provide some data samples
+to demonstrate the algorithm working with both of these two humanoid robots walking and manipulating.
 
 Pronto has been used with a variety of inputs 
 from sensors such as IMUs (Microstrain and Kearfott), laser ranger finders, 
 cameras and joint kinematics.
 
-As well as the source code we also provide some data samples
-to demonstrate the algorithm working on a fixed wing MAV and a
-the Atlas robot walking.
 
 .. image:: http://img.youtube.com/vi/V_DxB76MkE4/0.jpg
    :target: https://www.youtube.com/watch?v=V_DxB76MkE4
@@ -37,12 +35,10 @@ the Atlas robot walking.
 Software Overview
 -----------------
 The algorithms are built primarily in C/C++. A number of the local dependencies
-were developed for other robotics projects at MIT.
-
-The software repository consists of two modules:
+were developed for our robotics projects. The software repository consists of two main modules:
 
 * externals: required modules such as Eigen, octomap and visualization tools
-* pronto: the core estimator library (mav) and an adaptation for the Atlas robot (motion_estimate).
+* pronto: the core estimator library.
 
 Building the Code
 =================
@@ -88,13 +84,14 @@ There are many examples of using it in signal_scope/examples.
 Running Test Examples
 =====================
 
-Test logs for both BDI Atlas (v5) and NASA Valkyrie can be downloaded from the following
-location. Also includes are videos showing the visualisation of the estimator:
+Test LCM logs for both BDI Atlas (v5) and NASA Valkyrie can be downloaded from the following
+location. Also included are videos showing the output of the estimator.
 
 ::
 
-  http://homepages.inf.ed.ac.uk/mfallon2/share/pronto_test_data/
+  http://homepages.inf.ed.ac.uk/mfallon2/share/pronto_logs/
 
+The following commands will process the respective log files.
 
 NASA Valkyrie Logs
 ------------------
@@ -121,12 +118,13 @@ Boston Dynamics Atlas Logs
 Some notes:
 
 * All the state estimation is done in se-fusion. It listens to messages published 
-  from the logplayer and produces POSE_BODY - the position and orientation of the robot's pelvis. 
+  from the log and produces POSE_BODY - the position and orientation of the robot's pelvis. 
 * pronto-viewer is a GUI showing the sensor data and 
   the position of the robot.
 * Make sure that POSE_BODY and STATE_ESTIMATOR_STATE are disabled 
   (they were the position generated during the actual experiment)
 * bot-spy is a tool for inspecting the messages.
+* lcm-logplayer-gui is a gui based tool for playing back lcm logs (surprise!), we use it a lot to simulate live receipt of data. The logs can also be processed by playing back the logs from the tool.
 
 
 Using with your own robot
@@ -221,8 +219,7 @@ Currently Pronto uses LCM to receive data and to publish output.
 Lightweight Communications and Marshalling (LCM) is a tool for efficient multi-process 
 message passing originally developed at MIT for the DARPA Urban Challenge.
 
-To those familiar with ROS, it serves the same purpose as the message passing in ROS: messages are typed data structures
-and code is compiled to allow C/C++, python and Java bindings. Data is received in a process
+To those familiar with ROS, it serves the same purpose as the message passing in ROS: messages are typed data structures and code is compiled to allow C/C++, python and Java bindings. Data is received in a process
 via network communication and event-based function callbacks.
 
 If you are interested in a native ROS application, please get in touch.
