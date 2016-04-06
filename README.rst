@@ -89,7 +89,7 @@ Running Test Examples
 =====================
 
 Test logs for both BDI Atlas (v5) and NASA Valkyrie can be downloaded from the following
-location:
+location. Also includes are videos showing the visualisation of the estimator:
 
 ::
 
