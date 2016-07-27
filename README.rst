@@ -101,7 +101,7 @@ NASA Valkyrie Logs
   se-fusion -P val/robot.cfg -U val_description/urdf/valkyrie_sim.urdf  -L raluca-turning-180deg-snippet.lcmlog
   robot_model_publisher val_description/urdf/valkyrie_sim.urdf 
   se-state-sync-simple
-  pronto-viewer -val/robot.cfg
+  pronto-viewer -c val/robot.cfg
 
 
 Boston Dynamics Atlas Logs
@@ -112,7 +112,7 @@ Boston Dynamics Atlas Logs
   se-fusion -P atlas/robot.cfg -U atlas_v5/model_LR_RR.urdf  -L 20160315-walking.lcmlog
   robot_model_publisher model_LR_RR.urdf
   se-state-sync-simple
-  pronto-viewer -val/robot.cfg
+  pronto-viewer -c val/robot.cfg
 
 
 Some notes:
