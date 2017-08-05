@@ -246,5 +246,5 @@ Additional contributions from:
 
 The License information is available in the LICENSE file attached to this document.
 
-Maurice Fallon, Feb 2015. maurice.fallon@ed.ac.uk
+Maurice Fallon, Feb 2015. mfallon@robots.ox.ac.uk
 
