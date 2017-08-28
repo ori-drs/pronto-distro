@@ -89,7 +89,7 @@ location. Also included are videos showing the output of the estimator.
 
 ::
 
-  http://www.robots.ox.ac.uk/~mfallon/share/
+  http://www.robots.ox.ac.uk/~mfallon/share/pronto_logs/
 
 The following commands will process the respective log files.
 
